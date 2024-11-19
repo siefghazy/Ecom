@@ -15,7 +15,6 @@ namespace Store.Data.Models
         public string? ImageUrl { get; set; }
         public prodType prodType { get; set; }
         public int typID { get; set; }
-
         public prodBrand prodBrand{ get; set; }
         public int brandID { get; set; }
     }
