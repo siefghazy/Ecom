@@ -17,7 +17,9 @@ namespace Store.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.Entity<product>().HasOne(x => x.prodType).WithOne(x => x.product).HasForeignKey<product>(x => x.typID);
+            modelBuilder.Entity<product>().HasOne(x => x.prodBrand).WithMany(x => x.products).HasForeignKey(x => x.brandID);
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<product> Products { get; set; }

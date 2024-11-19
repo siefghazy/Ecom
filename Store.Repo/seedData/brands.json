@@ -1,0 +1,37 @@
+[
+  {
+    "ID": 1,
+    "Name": "Starbucks",
+    "ImageUrl": ""
+  },
+  {
+    "ID": 2,
+    "Name": "Costa",
+    "ImageUrl": ""
+  },
+  {
+    "ID": 3,
+    "Name": "Cilantro",
+    "ImageUrl": ""
+  },
+  {
+    "ID": 4,
+    "Name": "TBS",
+    "ImageUrl": ""
+  },
+  {
+    "ID": 5,
+    "Name": "On The Run",
+    "ImageUrl": ""
+  },
+  {
+    "ID": 6,
+    "Name": "Caribou",
+    "ImageUrl": ""
+  },
+  {
+    "ID": 7,
+    "Name": "Krispy Kreme",
+    "ImageUrl": ""
+  }
+]

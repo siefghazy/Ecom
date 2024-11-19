@@ -1,12 +1,15 @@
 
+using ECOMMERECE.Helper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Store.Data.Context;
+using Store.Repo;
 
 namespace WebApplication1
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main (string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -30,10 +33,8 @@ namespace WebApplication1
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-
+            await applySeeding.applySeedingAsync(app);
             app.MapControllers();
-
             app.Run();
         }
     }

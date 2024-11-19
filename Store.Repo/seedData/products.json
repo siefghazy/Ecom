@@ -1,0 +1,145 @@
+[{
+        "Name": "Double Caramel Frappuccino",
+        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "price": 200,
+        "ImageUrl": "images/products/sb-ang1.png",
+        "typID": 1,
+        "brandID": 1
+    },
+    {
+        "Name": "White Chocolate Mocha Frappuccino",
+        "description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+        "price": 150,
+        "ImageUrl": "images/products/sb-ang2.png",
+        "typID": 1,
+        "brandID": 1
+    },
+    {
+        "Name": "Iced Cafe Latte",
+        "description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "price": 180,
+        "ImageUrl": "images/products/sb-core1.png",
+        "typID": 2,
+        "brandID": 1
+    },
+    {
+        "Name": "White Chocolate Mocha",
+        "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "price": 300,
+        "ImageUrl": "images/products/sb-core2.png",
+        "typID": 3,
+        "brandID": 2
+    },
+    {
+        "Name": "Iced Caramel Macchiato",
+        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "price": 250,
+        "ImageUrl": "images/products/sb-react1.png",
+        "typID": 4,
+        "brandID": 1
+    },
+    {
+        "Name": "Hot Caramel Macchiato",
+        "description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+        "price": 120,
+        "ImageUrl": "images/products/sb-ts1.png",
+        "typID": 4,
+        "brandID": 5
+    },
+    {
+        "Name": "Iced Matcha Latte",
+        "description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "price": 10,
+        "ImageUrl": "images/products/hat-core1.png",
+        "typID": 5,
+        "brandID": 2
+    },
+    {
+        "Name": "Honey Cake",
+        "description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "price": 8,
+        "ImageUrl": "images/products/hat-react1.png",
+        "typID": 6,
+        "brandID": 1
+    },
+    {
+        "Name": "Blueberry Cheesecake",
+        "description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "price": 15,
+        "ImageUrl": "images/products/hat-react2.png",
+        "typID": 6,
+        "brandID": 1
+    },
+    {
+        "Name": "Glazed Donuts",
+        "description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+        "price": 18,
+        "ImageUrl": "images/products/glove-code1.png",
+        "typID": 7,
+        "brandID": 3
+    },
+    {
+        "Name": "Greek Salad",
+        "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "price": 15,
+        "ImageUrl": "images/products/glove-code2.png",
+        "typID": 7,
+        "brandID": 1
+    },
+    {
+        "Name": "Purple React Gloves",
+        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.",
+        "price": 16,
+        "ImageUrl": "images/products/glove-react1.png",
+        "typID": 4,
+        "brandID": 4
+    },
+    {
+        "Name": "Green React Gloves",
+        "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "price": 14,
+        "ImageUrl": "images/products/glove-react2.png",
+        "typID": 4,
+        "brandID": 4
+    },
+    {
+        "Name": "Redis Red Boots",
+        "description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "price": 250,
+        "ImageUrl": "images/products/boot-redis1.png",
+        "typID": 3,
+        "brandID": 6
+    },
+    {
+        "Name": "Core Red Boots",
+        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "price": 189.99,
+        "ImageUrl": "images/products/boot-core2.png",
+        "typID": 3,
+        "brandID": 2
+    },
+    {
+        "Name": "Core Purple Boots",
+        "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "price": 199.99,
+        "ImageUrl": "images/products/boot-core1.png",
+        "typID": 3,
+        "brandID": 2
+    },
+    {
+        "Name": "Angular Purple Boots",
+        "description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+        "price": 150,
+        "ImageUrl": "images/products/boot-ang2.png",
+        "typID": 3,
+        "brandID": 1
+    },
+    {
+        "Name": "Angular Blue Boots",
+        "description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "price": 180,
+        "ImageUrl": "images/products/boot-ang1.png",
+        "typID": 3,
+        "brandID": 1
+    }
+]

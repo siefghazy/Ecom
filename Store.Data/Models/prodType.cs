@@ -8,6 +8,7 @@ namespace Store.Data.Models
 {
     public class prodType:BaseEntity<int>
     {
+        public product product { get; set; }
         public string Name { get; set; }
     }
 }

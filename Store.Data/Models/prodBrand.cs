@@ -8,7 +8,7 @@ namespace Store.Data.Models
 {
     public class prodBrand :BaseEntity<int>
     {
+       public  List<product> products;
         public string Name { get; set; }
-        public string? ImageUrl { get; set; }
     }
 }

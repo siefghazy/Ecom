@@ -18,9 +18,8 @@ namespace Store.Data.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,8 +33,8 @@ namespace Store.Data.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,41 +49,40 @@ namespace Store.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    brandID = table.Column<int>(type: "int", nullable: false),
-                    prodBrandID = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     typID = table.Column<int>(type: "int", nullable: false),
-                    prodTypeID = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    brandID = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Products_Brands_prodBrandID",
-                        column: x => x.prodBrandID,
+                        name: "FK_Products_Brands_brandID",
+                        column: x => x.brandID,
                         principalTable: "Brands",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_ProdTypes_prodTypeID",
-                        column: x => x.prodTypeID,
+                        name: "FK_Products_ProdTypes_typID",
+                        column: x => x.typID,
                         principalTable: "ProdTypes",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_prodBrandID",
+                name: "IX_Products_brandID",
                 table: "Products",
-                column: "prodBrandID");
+                column: "brandID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_prodTypeID",
+                name: "IX_Products_typID",
                 table: "Products",
-                column: "prodTypeID");
+                column: "typID",
+                unique: true);
         }
 
         /// <inheritdoc />

@@ -12,7 +12,7 @@ using Store.Data.Context;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241118140256_init")]
+    [Migration("20241119142440_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -33,17 +33,14 @@ namespace Store.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isDeleted")
+                    b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
                     b.HasKey("ID");
@@ -59,14 +56,14 @@ namespace Store.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isDeleted")
+                    b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
                     b.HasKey("ID");
@@ -82,7 +79,7 @@ namespace Store.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
@@ -98,26 +95,21 @@ namespace Store.Data.Migrations
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isDeleted")
+                    b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("prodBrandID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("prodTypeID")
-                        .HasColumnType("int");
 
                     b.Property<int>("typID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("prodBrandID");
+                    b.HasIndex("brandID");
 
-                    b.HasIndex("prodTypeID");
+                    b.HasIndex("typID")
+                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -125,20 +117,31 @@ namespace Store.Data.Migrations
             modelBuilder.Entity("Store.Data.Models.product", b =>
                 {
                     b.HasOne("Store.Data.Models.prodBrand", "prodBrand")
-                        .WithMany()
-                        .HasForeignKey("prodBrandID")
+                        .WithMany("products")
+                        .HasForeignKey("brandID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Store.Data.Models.prodType", "prodType")
-                        .WithMany()
-                        .HasForeignKey("prodTypeID")
+                        .WithOne("product")
+                        .HasForeignKey("Store.Data.Models.product", "typID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("prodBrand");
 
                     b.Navigation("prodType");
+                });
+
+            modelBuilder.Entity("Store.Data.Models.prodBrand", b =>
+                {
+                    b.Navigation("products");
+                });
+
+            modelBuilder.Entity("Store.Data.Models.prodType", b =>
+                {
+                    b.Navigation("product")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
