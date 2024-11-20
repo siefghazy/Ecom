@@ -26,7 +26,7 @@ namespace Store.Repo.repos
 
         public async Task<IReadOnlyList<Tentity>> GetAllAsync()
         {
-          return await _context.Set<Tentity>().ToListAsync();
+            return await _context.Set<Tentity>().ToListAsync();
         }
 
         public async Task<Tentity> getByIdAsync(Tkey? id)
@@ -34,9 +34,9 @@ namespace Store.Repo.repos
             return await _context.Set<Tentity>().FindAsync(id);
         }
 
-        public  void remove(Tentity entity)
+        public void remove(Tentity entity)
         {
-           _context.Set<Tentity>().Remove(entity);
+            _context.Set<Tentity>().Remove(entity);
         }
 
         public void update(Tentity entity)
