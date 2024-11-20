@@ -33,7 +33,7 @@ namespace WebApplication1
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-            await applySeeding.applySeedingAsync(app);
+            //await applySeeding.applySeedingAsync(app);
             app.MapControllers();
             app.Run();
         }
