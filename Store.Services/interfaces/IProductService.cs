@@ -12,6 +12,6 @@ namespace Store.Services.interfaces
         public Task<IReadOnlyList<ProductDto>> getAllProductsAsync();
         public Task<IReadOnlyList<brandDto>> getAllBrandAsync();
         public Task<IReadOnlyList<brandDto>> getAllTypesAsync();
-        public Task<ProductDto> getProductById(int id);
+        public Task<ProductDto>getProductById(int id);
     }
 }
