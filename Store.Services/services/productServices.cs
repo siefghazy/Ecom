@@ -55,7 +55,8 @@ namespace Store.Services.services
         public async void deleteProduct(int id)
         {
             var product = await _unitOfWork.repostries<product, int>().getByIdAsync(id);
-             _unitOfWork.repostries<product, int>().remove(product);
+            _unitOfWork.repostries<product, int>().remove(product);
+            _unitOfWork.saveChangesAsync();
         }
 
         public async void updateProduct(ProductDto product)
@@ -69,9 +70,10 @@ namespace Store.Services.services
                 typID = product.TypeId,
                 price = product.price,
                 CreatedAt = (DateTime)product.createdAt,
-                ImageUrl = product.imageUrl,    
+                ImageUrl = product.imageUrl,
             };
-            _unitOfWork.repostries<product, int>().update(updateProduct);  
+            _unitOfWork.repostries<product, int>().update(updateProduct);
+            await _unitOfWork.saveChangesAsync();
         }
 
         public async void addProduct(ProductDto productDto)
@@ -87,7 +89,8 @@ namespace Store.Services.services
                 Name = productDto.Name,
                 ImageUrl=productDto.imageUrl
             };
-            await _unitOfWork.repostries<product,int>().addAsync(mappedProduct);
+            await _unitOfWork.repostries<product, int>().addAsync(mappedProduct);
+           await _unitOfWork.saveChangesAsync();
         }
     }
 }

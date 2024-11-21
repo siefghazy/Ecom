@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Store.Data.Context;
 using Store.Repo;
+using Store.Repo.interfaces;
+using Store.Repo.UnitOfWork;
+using Store.Services.interfaces;
+using Store.Services.services;
 
 namespace WebApplication1
 {
@@ -20,6 +24,8 @@ namespace WebApplication1
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<iUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IbrandService, BrandServices>();
             builder.Services.AddDbContext<StoreDbContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 

@@ -25,13 +25,15 @@ namespace Store.Services.services
                 ID = brandDto.id,
                 Name = brandDto.Name,
             };
-            await _unitOfWork.repostries<prodBrand,int>().addAsync(brand);
+            await _unitOfWork.repostries<prodBrand, int>().addAsync(brand);
+            await _unitOfWork.saveChangesAsync();
         }
 
         public async void deleteProduct(int id)
         {
             var product = await _unitOfWork.repostries<prodBrand, int>().getByIdAsync(id);
             _unitOfWork.repostries<prodBrand, int>().remove(product);
+            await _unitOfWork.saveChangesAsync();
         }
 
         public async Task<IReadOnlyList<brandDto>> getAllBrandsAsync()
@@ -62,7 +64,7 @@ namespace Store.Services.services
             _unitOfWork.repostries<prodBrand,int>().remove(product);
         }
 
-        public  void updateBrand(brandDto brandDto)
+        public async void updateBrand(brandDto brandDto)
         {
             prodBrand brand = new prodBrand
             {
@@ -70,6 +72,7 @@ namespace Store.Services.services
                 Name = brandDto.Name,
             };
             _unitOfWork.repostries<prodBrand, int>().remove(brand);
+            await _unitOfWork.saveChangesAsync();
         }
     }
 }
