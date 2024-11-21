@@ -18,16 +18,6 @@ namespace Store.Services.services
             _unitOfWork = iUnitOfWork;
         }
 
-        public async Task<IReadOnlyList<brandDto>> getAllBrandAsync()
-        {
-            var brands = await _unitOfWork.repostries<prodBrand, int>().GetAllAsync();
-            var mappedBrands = brands.Select(x => new brandDto()
-            {
-                Name = x.Name,
-                id = x.ID,
-            }).ToList();
-            return mappedBrands;
-        }
 
         public async Task<IReadOnlyList<ProductDto>> getAllProductsAsync()
         {
@@ -37,24 +27,14 @@ namespace Store.Services.services
                 id = x.ID,
                 Name = x.Name,
                 description = x.description,
-                brandName = x.prodBrand.Name,
-                brandType = x.prodType.Name,
+                brandId = x.brandID,
+                TypeId = x.typID,
                 price = x.price,
                 createdAt = (DateTime)x.CreatedAt,
             }).ToList();
             return mappedProducts;
         }
 
-        public async Task<IReadOnlyList<brandDto>> getAllTypesAsync()
-        {
-            var types = await _unitOfWork.repostries<prodType, int>().GetAllAsync();
-            var mappedTypes = types.Select(x => new brandDto()
-            {
-                Name = x.Name,
-                id = x.ID,
-            }).ToList();
-            return mappedTypes;
-        }
 
         public async Task<ProductDto> getProductById(int id)
         {
@@ -64,12 +44,48 @@ namespace Store.Services.services
                 id = product.ID,
                 description = product.description,
                 Name = product.Name,
-                brandName = product.prodBrand.Name,
-                brandType = product.prodType.Name,
+                 brandId = product.brandID,
+                TypeId = product.typID,
                 price = product.price,
                 createdAt = (DateTime)product.CreatedAt
             };
             return mappenProduct;
+        }
+
+        public async void deleteProduct(int id)
+        {
+            var product = await _unitOfWork.repostries<product, int>().getByIdAsync(id);
+             _unitOfWork.repostries<product, int>().remove(product);
+        }
+
+        public async void updateProduct(ProductDto product)
+        {
+            product updateProduct = new product()
+            {
+                ID = product.id,
+                description = product.description,
+                Name = product.Name,
+                brandID = product.brandId,
+                typID = product.TypeId,
+                price = product.price,
+                CreatedAt = (DateTime)product.createdAt
+            };
+            _unitOfWork.repostries<product, int>().update(updateProduct);  
+        }
+
+        public async void addProduct(ProductDto productDto)
+        {
+            product mappedProduct = new product()
+            {
+                ID = productDto.id,
+                description = productDto.description,
+                price = productDto.price,
+                brandID = productDto.brandId,
+                typID = productDto.TypeId,
+                CreatedAt = (DateTime)productDto.createdAt,
+                Name = productDto.Name,
+            };
+            await _unitOfWork.repostries<product,int>().addAsync(mappedProduct);
         }
     }
 }

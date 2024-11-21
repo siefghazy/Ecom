@@ -10,8 +10,9 @@ namespace Store.Services.interfaces
    public interface IProductService
     {
         public Task<IReadOnlyList<ProductDto>> getAllProductsAsync();
-        public Task<IReadOnlyList<brandDto>> getAllBrandAsync();
-        public Task<IReadOnlyList<brandDto>> getAllTypesAsync();
-        public Task<ProductDto>getProductById(int id);
+        public void addProduct(ProductDto productDto);
+        public Task<ProductDto> getProductById(int id);
+        public void updateProduct(ProductDto productDto);
+        public void deleteProduct(int id);
     }
 }
