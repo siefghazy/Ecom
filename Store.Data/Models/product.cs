@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace Store.Data.Models
         public int typID { get; set; }
         public prodBrand prodBrand{ get; set; }
         public int brandID { get; set; }
+        public ICollection<image> images { get; set; }
     }
 }

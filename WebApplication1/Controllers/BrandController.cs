@@ -25,5 +25,10 @@ namespace ECOMMERECE.Controllers
         {
             return Ok(await _brandService.getProductById(id));
         }
+        //[HttpPost]
+       /* public async void addBrand()
+        {
+            return Ok(await _brandService.addBrand());
+        }*/
     }
 }

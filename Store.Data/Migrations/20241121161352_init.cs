@@ -12,18 +12,18 @@ namespace Store.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Brands",
+                name: "images",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    path = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Brands", x => x.ID);
+                    table.PrimaryKey("PK_images", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,6 +39,27 @@ namespace Store.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProdTypes", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Brands",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    imageId = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brands", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Brands_images_imageId",
+                        column: x => x.imageId,
+                        principalTable: "images",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -73,6 +94,42 @@ namespace Store.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "imagesOnProducts",
+                columns: table => new
+                {
+                    imagesID = table.Column<int>(type: "int", nullable: false),
+                    productsID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_imagesOnProducts", x => new { x.imagesID, x.productsID });
+                    table.ForeignKey(
+                        name: "FK_imagesOnProducts_Products_productsID",
+                        column: x => x.productsID,
+                        principalTable: "Products",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_imagesOnProducts_images_imagesID",
+                        column: x => x.imagesID,
+                        principalTable: "images",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Brands_imageId",
+                table: "Brands",
+                column: "imageId",
+                unique: true,
+                filter: "[imageId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_imagesOnProducts_productsID",
+                table: "imagesOnProducts",
+                column: "productsID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Products_brandID",
                 table: "Products",
@@ -89,6 +146,9 @@ namespace Store.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "imagesOnProducts");
+
+            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
@@ -96,6 +156,9 @@ namespace Store.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProdTypes");
+
+            migrationBuilder.DropTable(
+                name: "images");
         }
     }
 }

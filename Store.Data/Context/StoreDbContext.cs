@@ -19,11 +19,15 @@ namespace Store.Data.Context
         {
             modelBuilder.Entity<product>().HasOne(x => x.prodType).WithOne(x => x.product).HasForeignKey<product>(x => x.typID);
             modelBuilder.Entity<product>().HasOne(x => x.prodBrand).WithMany(x => x.products).HasForeignKey(x => x.brandID);
+            modelBuilder.Entity<prodBrand>().HasOne(x => x.image).WithOne(x => x.prodBrand).HasForeignKey<prodBrand>(x => x.imageId);
+            modelBuilder.Entity<product>().HasMany(x => x.images).WithMany(x => x.products).UsingEntity<imagesOnProduct>();
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<product> Products { get; set; }
         public DbSet<prodBrand> Brands { get; set; }
         public DbSet<prodType> ProdTypes { get; set; }
+        public DbSet<image> images { get; set; }
+        public DbSet<imagesOnProduct> imagesOnProducts { get; set; }
     }
 }

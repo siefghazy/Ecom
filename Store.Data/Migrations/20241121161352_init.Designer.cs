@@ -12,7 +12,7 @@ using Store.Data.Context;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241119142440_init")]
+    [Migration("20241121161352_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,6 +24,44 @@ namespace Store.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Store.Data.Models.image", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("images");
+                });
+
+            modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
+                {
+                    b.Property<int>("imagesID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("productsID")
+                        .HasColumnType("int");
+
+                    b.HasKey("imagesID", "productsID");
+
+                    b.HasIndex("productsID");
+
+                    b.ToTable("imagesOnProducts");
+                });
 
             modelBuilder.Entity("Store.Data.Models.prodBrand", b =>
                 {
@@ -40,10 +78,17 @@ namespace Store.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("imageId")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("imageId")
+                        .IsUnique()
+                        .HasFilter("[imageId] IS NOT NULL");
 
                     b.ToTable("Brands");
                 });
@@ -114,6 +159,30 @@ namespace Store.Data.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
+                {
+                    b.HasOne("Store.Data.Models.image", null)
+                        .WithMany()
+                        .HasForeignKey("imagesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Store.Data.Models.product", null)
+                        .WithMany()
+                        .HasForeignKey("productsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Store.Data.Models.prodBrand", b =>
+                {
+                    b.HasOne("Store.Data.Models.image", "image")
+                        .WithOne("prodBrand")
+                        .HasForeignKey("Store.Data.Models.prodBrand", "imageId");
+
+                    b.Navigation("image");
+                });
+
             modelBuilder.Entity("Store.Data.Models.product", b =>
                 {
                     b.HasOne("Store.Data.Models.prodBrand", "prodBrand")
@@ -131,6 +200,12 @@ namespace Store.Data.Migrations
                     b.Navigation("prodBrand");
 
                     b.Navigation("prodType");
+                });
+
+            modelBuilder.Entity("Store.Data.Models.image", b =>
+                {
+                    b.Navigation("prodBrand")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Store.Data.Models.prodBrand", b =>
