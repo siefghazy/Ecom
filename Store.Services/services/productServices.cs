@@ -68,7 +68,8 @@ namespace Store.Services.services
                 brandID = product.brandId,
                 typID = product.TypeId,
                 price = product.price,
-                CreatedAt = (DateTime)product.createdAt
+                CreatedAt = (DateTime)product.createdAt,
+                ImageUrl = product.imageUrl,    
             };
             _unitOfWork.repostries<product, int>().update(updateProduct);  
         }
@@ -84,6 +85,7 @@ namespace Store.Services.services
                 typID = productDto.TypeId,
                 CreatedAt = (DateTime)productDto.createdAt,
                 Name = productDto.Name,
+                ImageUrl=productDto.imageUrl
             };
             await _unitOfWork.repostries<product,int>().addAsync(mappedProduct);
         }
