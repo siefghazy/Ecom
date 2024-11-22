@@ -9,9 +9,9 @@ namespace Store.Services.interfaces
 {
     public interface IbrandService
     {
-        public Task<IReadOnlyList<brandDto>> getAllBrandsAsync();
+        public IReadOnlyList<brandDto> getAllBrands();
         public  void addBrand(brandDto brandDto);
-        public Task<brandDto> getProductById(int id);
+        public brandDto getProductById(int id);
         public void updateBrand(brandDto brandDto);
         public void deleteBrand(int id);
     }

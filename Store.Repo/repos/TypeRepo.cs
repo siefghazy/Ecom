@@ -18,20 +18,20 @@ namespace Store.Repo.repos
             _Context = context;
         }
 
-        public async Task addTypeAsync(prodType prodType)
+        public void  addType(prodType prodType)
         {
-            await _Context.AddAsync(prodType);
+             _Context.AddAsync(prodType);
             _Context.SaveChangesAsync();
         }
 
-        public async Task<IReadOnlyList<prodType>> getAllTypesAsync()
+        public IReadOnlyList<prodType> getAllTypes()
         {
-            return await _Context.ProdTypes.ToListAsync();
+            return _Context.ProdTypes.ToList();
         }
 
-        public async Task<prodType> getTypeById(int id)
+        public prodType getTypeById(int id)
         {
-            return await _Context.ProdTypes.FindAsync(id);
+            return  _Context.ProdTypes.Find(id);
         }
 
         public void updateType(prodType productType)

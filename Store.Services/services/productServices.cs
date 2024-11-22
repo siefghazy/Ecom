@@ -19,9 +19,9 @@ namespace Store.Services.services
         }
 
 
-        public async Task<IReadOnlyList<ProductDto>> getAllProductsAsync()
+        public IReadOnlyList<ProductDto> getAllProducts()
         {
-            var products = await _product.getAllProductsAsync();
+            var products =  _product.getAllProducts();
             var mappedProducts = products.Select(x => new ProductDto()
             {
                 id = x.ID,
@@ -36,9 +36,9 @@ namespace Store.Services.services
         }
 
 
-        public async Task<ProductDto> getProductById(int id)
+        public  ProductDto getProductById(int id)
         {
-            var product = await _product.getPrdouctById(id);
+            var product =  _product.getPrdouctById(id);
             var mappenProduct = new ProductDto()
             {
                 id = product.ID,
@@ -52,9 +52,9 @@ namespace Store.Services.services
             return mappenProduct;
         }
 
-        public async void deleteProduct(int id)
+        public  void deleteProduct(int id)
         {
-            var product = await _product.getPrdouctById(id);
+            var product =  _product.getPrdouctById(id);
             _product.removeProduct(product);
         }
 
@@ -74,7 +74,7 @@ namespace Store.Services.services
             _product.updateProduct(updateProduct);
         }
 
-        public async void addProduct(ProductDto productDto)
+        public  void addProduct(ProductDto productDto)
         {
             product mappedProduct = new product()
             {
@@ -87,7 +87,7 @@ namespace Store.Services.services
                 Name = productDto.Name,
                 ImageUrl = productDto.imageUrl
             };
-            await _product.addProductAsync(mappedProduct);
+             _product.addProduct(mappedProduct);
         }
     }
 }

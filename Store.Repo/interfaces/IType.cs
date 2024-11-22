@@ -9,9 +9,9 @@ namespace Store.Repo.interfaces
 {
     public interface IType
     {
-        public Task<IReadOnlyList<prodType>> getAllTypesAsync();
-        public Task<prodType> getTypeById(int id);
-        public Task addTypeAsync(prodType prodType);
+        public IReadOnlyList<prodType> getAllTypes();
+        public prodType getTypeById(int id);
+        public void addType(prodType prodType);
         public void updateType(prodType prodType);
         public void deleteType(prodType prodType);
 

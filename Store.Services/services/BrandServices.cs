@@ -1,4 +1,5 @@
-﻿using Store.Data.Models;
+﻿using ECOMMERECE.helper;
+using Store.Data.Models;
 using Store.Repo.interfaces;
 using Store.Services.Dto;
 using Store.Services.interfaces;
@@ -18,25 +19,27 @@ namespace Store.Services.services
             _brand = brand;
         }
 
-        public async void  addBrand(brandDto brandDto)
+        public  void  addBrand(brandDto brandDto)
         {
+            var brandImage = documentSetting.uploadFile(brandDto.FormImage, "images");
             prodBrand brand = new prodBrand()
             {
                 ID = brandDto.id,
                 Name = brandDto.Name,
+
             };
-            await _brand.addBrandAsync(brand);
+             _brand.addBrand(brand);
         }
 
-        public async void deleteProduct(int id)
+        public  void deleteProduct(int id)
         {
-            var product = await _brand.getBrandById(id);
+            var product =  _brand.getBrandById(id);
             _brand.deleteBrand(product);
         }
 
-        public async Task<IReadOnlyList<brandDto>> getAllBrandsAsync()
+        public  IReadOnlyList<brandDto> getAllBrands()
         {
-            var brands = await _brand.getAllBrandsAsync();
+            var brands =  _brand.getAllBrands();
             var mappedBrands = brands.Select(x => new brandDto()
             {
                 id = x.ID,
@@ -45,9 +48,9 @@ namespace Store.Services.services
             return mappedBrands;
         }
 
-        public async Task<brandDto> getProductById(int id)
+        public  brandDto getProductById(int id)
         {
-            var brand = await _brand.getBrandById(id);
+            var brand = _brand.getBrandById(id);
             var mappedBrand = new brandDto()
             {
                 id = brand.ID,
@@ -56,9 +59,10 @@ namespace Store.Services.services
             return mappedBrand;
         }
 
-        public async void deleteBrand(int id)
+        public  void deleteBrand(int id)
         {
-            var product = await _brand.getBrandById(id);
+            var product =  _brand.getBrandById(id);
+
             _brand.deleteBrand(product);
         }
 
@@ -71,5 +75,6 @@ namespace Store.Services.services
             };
            _brand.updateBrand(brand);
         }
+
     }
 }

@@ -18,10 +18,10 @@ namespace Store.Repo.repos
             _Context = context;
         }
 
-        public async Task addBrandAsync(prodBrand prodBrand)
+        public void addBrand(prodBrand prodBrand)
         {
-            await _Context.Brands.AddAsync(prodBrand);
-            await _Context.SaveChangesAsync();
+             _Context.Brands.AddAsync(prodBrand);
+             _Context.SaveChangesAsync();
         }
 
         public void deleteBrand(prodBrand brand)
@@ -30,14 +30,14 @@ namespace Store.Repo.repos
             _Context.SaveChanges();
         }
 
-        public async Task<IReadOnlyList<prodBrand>> getAllBrandsAsync()
+        public IReadOnlyList<prodBrand> getAllBrands()
         {
-          return await _Context.Brands.ToListAsync();
+          return _Context.Brands.ToList();
         }
 
-        public async Task<prodBrand> getBrandById(int id)
+        public prodBrand getBrandById(int id)
         {
-            return await _Context.Brands.FindAsync(id);
+            return  _Context.Brands.Find(id);
         }
 
         public void updateBrand(prodBrand prodBrand)

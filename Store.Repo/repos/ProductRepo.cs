@@ -19,20 +19,20 @@ namespace Store.Repo.repos
             _Context = context;
         }
 
-        public async Task addProductAsync(product product)
+        public void addProduct(product product)
         {
-            await _Context.Products.AddAsync(product);
-            await _Context.SaveChangesAsync();
+             _Context.Products.AddAsync(product);
+             _Context.SaveChangesAsync();
         }
 
-        public async Task<IReadOnlyList<product>> getAllProductsAsync()
+        public IReadOnlyList<product> getAllProducts()
         {
-            return await _Context.Products.Include(x=>x.prodBrand).Include(x=>x.prodType).ToListAsync();
+            return  _Context.Products.Include(x => x.prodBrand).Include(x => x.prodType).ToList();
         }
 
-        public async Task<product> getPrdouctById(int id)
+        public product getPrdouctById(int id)
         {
-            return await _Context.Products.Include(x => x.prodBrand).Include(x => x.prodType).FirstOrDefaultAsync(x => x.ID == id);
+            return  _Context.Products.Include(x => x.prodBrand).Include(x => x.prodType).FirstOrDefault(x => x.ID == id);
         }
 
         public void updateProduct(product product)

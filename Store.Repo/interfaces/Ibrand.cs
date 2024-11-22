@@ -9,9 +9,9 @@ namespace Store.Repo.interfaces
 {
     public interface Ibrand
     {
-        public Task<IReadOnlyList<prodBrand>> getAllBrandsAsync();
-        public Task<prodBrand> getBrandById(int id);
-        public Task addBrandAsync(prodBrand prodBrand);
+        public IReadOnlyList<prodBrand> getAllBrands();
+        public prodBrand getBrandById(int id);
+        public void addBrand(prodBrand prodBrand);
         public void updateBrand(prodBrand prodBrand);
         public void deleteBrand(prodBrand brand);
     }

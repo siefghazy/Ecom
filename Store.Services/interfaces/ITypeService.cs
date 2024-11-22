@@ -9,9 +9,9 @@ namespace Store.Services.interfaces
 {
     public interface ITypeService
     {
-        public Task<IReadOnlyList<typDto>> getAllTypeAsync();
+        public IReadOnlyList<typDto> getAllType();
         public void addType(typDto typDto);
-        public Task<typDto> getTypeById(int id);
+        public typDto getTypeById(int id);
         public void updateType(typDto typDto);
         public void deleteType(int id);
     }

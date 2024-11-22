@@ -18,26 +18,26 @@ namespace Store.Services.services
            _type = type;
         }
 
-        public async void addType(typDto typDto)
+        public  void addType(typDto typDto)
         {
             prodType type = new prodType()
             {
                 ID = typDto.id,
                 Name = typDto.Name
             };
-            await _type.addTypeAsync(type);
+             _type.addType(type);
 
         }
 
         public async void deleteType(int id)
         {
-            var type = await _type.getTypeById(id);
+            var type =  _type.getTypeById(id);
             _type.deleteType(type);
         }
 
-        public async Task<IReadOnlyList<typDto>> getAllTypeAsync()
+        public  IReadOnlyList<typDto> getAllType()
         {
-            var types = await _type.getAllTypesAsync();
+            var types =  _type.getAllTypes();
             var mappedTypes = types.Select(x => new typDto
             {
                 id = x.ID,
@@ -46,9 +46,9 @@ namespace Store.Services.services
             return mappedTypes;
         }
 
-        public async Task<typDto> getTypeById(int id)
+        public typDto getTypeById(int id)
         {
-            var type = await _type.getTypeById(id);
+            var type =  _type.getTypeById(id);
             var mappedType = new typDto
             {
                 id = type.ID,
