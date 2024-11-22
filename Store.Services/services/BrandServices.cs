@@ -12,10 +12,10 @@ namespace Store.Services.services
 {
     public class BrandServices : IbrandService
     {
-        private readonly iUnitOfWork _unitOfWork;
-        public BrandServices(iUnitOfWork iUnitOfWork)
+        private readonly Ibrand _brand;
+        public BrandServices(Ibrand brand)
         {
-            _unitOfWork = iUnitOfWork;
+            _brand = brand;
         }
 
         public async void  addBrand(brandDto brandDto)
@@ -25,20 +25,18 @@ namespace Store.Services.services
                 ID = brandDto.id,
                 Name = brandDto.Name,
             };
-            await _unitOfWork.repostries<prodBrand, int>().addAsync(brand);
-            await _unitOfWork.saveChangesAsync();
+            await _brand.addBrandAsync(brand);
         }
 
         public async void deleteProduct(int id)
         {
-            var product = await _unitOfWork.repostries<prodBrand, int>().getByIdAsync(id);
-            _unitOfWork.repostries<prodBrand, int>().remove(product);
-            await _unitOfWork.saveChangesAsync();
+            var product = await _brand.getBrandById(id);
+            _brand.deleteBrand(product);
         }
 
         public async Task<IReadOnlyList<brandDto>> getAllBrandsAsync()
         {
-            var brands = await _unitOfWork.repostries<prodBrand, int>().GetAllAsync();
+            var brands = await _brand.getAllBrandsAsync();
             var mappedBrands = brands.Select(x => new brandDto()
             {
                 id = x.ID,
@@ -49,7 +47,7 @@ namespace Store.Services.services
 
         public async Task<brandDto> getProductById(int id)
         {
-            var brand = await _unitOfWork.repostries<prodBrand, int>().getByIdAsync(id);
+            var brand = await _brand.getBrandById(id);
             var mappedBrand = new brandDto()
             {
                 id = brand.ID,
@@ -60,19 +58,18 @@ namespace Store.Services.services
 
         public async void deleteBrand(int id)
         {
-            var product = await _unitOfWork.repostries<prodBrand, int>().getByIdAsync(id);
-            _unitOfWork.repostries<prodBrand,int>().remove(product);
+            var product = await _brand.getBrandById(id);
+            _brand.deleteBrand(product);
         }
 
-        public async void updateBrand(brandDto brandDto)
+        public  void updateBrand(brandDto brandDto)
         {
             prodBrand brand = new prodBrand
             {
                 ID = brandDto.id,
                 Name = brandDto.Name,
             };
-            _unitOfWork.repostries<prodBrand, int>().remove(brand);
-            await _unitOfWork.saveChangesAsync();
+           _brand.updateBrand(brand);
         }
     }
 }

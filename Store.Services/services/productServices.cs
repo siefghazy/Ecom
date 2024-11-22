@@ -12,16 +12,16 @@ namespace Store.Services.services
 {
     public class productServices:IProductService
     {
-        private readonly iUnitOfWork _unitOfWork;
-        public productServices(iUnitOfWork iUnitOfWork)
+        private readonly IProduct _product;
+        public productServices(IProduct product)
         {
-            _unitOfWork = iUnitOfWork;
+            _product = product;
         }
 
 
         public async Task<IReadOnlyList<ProductDto>> getAllProductsAsync()
         {
-            var products = await _unitOfWork.repostries<product, int>().GetAllAsync();
+            var products = await _product.getAllProductsAsync();
             var mappedProducts = products.Select(x => new ProductDto()
             {
                 id = x.ID,
@@ -38,7 +38,7 @@ namespace Store.Services.services
 
         public async Task<ProductDto> getProductById(int id)
         {
-            var product = await _unitOfWork.repostries<product, int>().getByIdAsync(id);
+            var product = await _product.getPrdouctById(id);
             var mappenProduct = new ProductDto()
             {
                 id = product.ID,
@@ -54,12 +54,11 @@ namespace Store.Services.services
 
         public async void deleteProduct(int id)
         {
-            var product = await _unitOfWork.repostries<product, int>().getByIdAsync(id);
-            _unitOfWork.repostries<product, int>().remove(product);
-            _unitOfWork.saveChangesAsync();
+            var product = await _product.getPrdouctById(id);
+            _product.removeProduct(product);
         }
 
-        public async void updateProduct(ProductDto product)
+        public  void updateProduct(ProductDto product)
         {
             product updateProduct = new product()
             {
@@ -72,8 +71,7 @@ namespace Store.Services.services
                 CreatedAt = (DateTime)product.createdAt,
                 ImageUrl = product.imageUrl,
             };
-            _unitOfWork.repostries<product, int>().update(updateProduct);
-            await _unitOfWork.saveChangesAsync();
+            _product.updateProduct(updateProduct);
         }
 
         public async void addProduct(ProductDto productDto)
@@ -87,10 +85,9 @@ namespace Store.Services.services
                 typID = productDto.TypeId,
                 CreatedAt = (DateTime)productDto.createdAt,
                 Name = productDto.Name,
-                ImageUrl=productDto.imageUrl
+                ImageUrl = productDto.imageUrl
             };
-            await _unitOfWork.repostries<product, int>().addAsync(mappedProduct);
-           await _unitOfWork.saveChangesAsync();
+            await _product.addProductAsync(mappedProduct);
         }
     }
 }

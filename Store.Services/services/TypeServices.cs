@@ -12,10 +12,10 @@ namespace Store.Services.services
 {
     public class TypeServices : ITypeService
     {
-        private readonly iUnitOfWork _unitOfWork;
-        public TypeServices(iUnitOfWork iUnitOfWork)
+        private readonly IType _type;
+        public TypeServices(IType type)
         {
-            _unitOfWork = iUnitOfWork;
+           _type = type;
         }
 
         public async void addType(typDto typDto)
@@ -25,19 +25,19 @@ namespace Store.Services.services
                 ID = typDto.id,
                 Name = typDto.Name
             };
-            await _unitOfWork.repostries<prodType, int>().addAsync(type);
+            await _type.addTypeAsync(type);
 
         }
 
         public async void deleteType(int id)
         {
-            var type = await _unitOfWork.repostries<prodType, int>().getByIdAsync(id);
-            _unitOfWork.repostries<prodType, int>().remove(type);
+            var type = await _type.getTypeById(id);
+            _type.deleteType(type);
         }
 
         public async Task<IReadOnlyList<typDto>> getAllTypeAsync()
         {
-            var types = await _unitOfWork.repostries<prodType, int>().GetAllAsync();
+            var types = await _type.getAllTypesAsync();
             var mappedTypes = types.Select(x => new typDto
             {
                 id = x.ID,
@@ -48,7 +48,7 @@ namespace Store.Services.services
 
         public async Task<typDto> getTypeById(int id)
         {
-            var type = await _unitOfWork.repostries<prodType, int>().getByIdAsync(id);
+            var type = await _type.getTypeById(id);
             var mappedType = new typDto
             {
                 id = type.ID,
@@ -64,7 +64,7 @@ namespace Store.Services.services
                 ID = typDto.id,
                 Name = typDto.Name,
             };
-            _unitOfWork.repostries<prodType, int>().remove(type);
+            _type.updateType(type);
         }
     }
 }
