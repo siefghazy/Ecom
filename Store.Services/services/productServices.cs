@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 
 namespace Store.Services.services
 {
-    public class productServices:IProductService
+    public class productServices: IProductService
     {
         private readonly IProduct _product;
-        public productServices(IProduct product)
+        private readonly IImages _images;
+        public productServices(IProduct product,IImages images)
         {
             _product = product;
+            _images = images;
         }
 
 
@@ -30,6 +32,7 @@ namespace Store.Services.services
                 brandId = x.brandID,
                 TypeId = x.typID,
                 price = x.price,
+                
                 createdAt = (DateTime)x.CreatedAt,
             }).ToList();
             return mappedProducts;
@@ -69,7 +72,7 @@ namespace Store.Services.services
                 typID = product.TypeId,
                 price = product.price,
                 CreatedAt = (DateTime)product.createdAt,
-                ImageUrl = product.imageUrl,
+               // ImageUrl = product.imageUrl,
             };
             _product.updateProduct(updateProduct);
         }
@@ -85,7 +88,7 @@ namespace Store.Services.services
                 typID = productDto.TypeId,
                 CreatedAt = (DateTime)productDto.createdAt,
                 Name = productDto.Name,
-                ImageUrl = productDto.imageUrl
+                //ImageUrl = productDto.imageUrl
             };
              _product.addProduct(mappedProduct);
         }

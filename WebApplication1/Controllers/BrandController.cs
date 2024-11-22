@@ -16,18 +16,25 @@ namespace ECOMMERECE.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<brandDto>>>  getAllBrands()
+        public ActionResult<IReadOnlyList<brandDto>>  getAllBrands()
         {
             return Ok(  _brandService.getAllBrands());
         }
         [HttpGet("id")]
-        public async Task<ActionResult<brandDto>> getBrandById(int id)
+        public ActionResult<brandDto> getBrandById(int id)
         {
-            return Ok( _brandService.getProductById(id));
+            return Ok(_brandService.getProductById(id));
         }
-       /* public async void addBrand()
+        [HttpPost]
+        public void addBrand([FromForm] brandDto brandDto)
         {
-            return Ok(await _brandService.addBrand());
-        }*/
+            _brandService.addBrand(brandDto);
+        }
+        [HttpPost("id")]
+        public void deleteBrand(int id)
+        {
+            _brandService.deleteBrand(id);
+         
+        }
     }
 }

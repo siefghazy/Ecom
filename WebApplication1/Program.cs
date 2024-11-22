@@ -30,6 +30,7 @@ namespace WebApplication1
             builder.Services.AddScoped<IbrandService, BrandServices>();
             builder.Services.AddScoped<IProductService, productServices>();
             builder.Services.AddScoped<ITypeService, TypeServices>();
+            builder.Services.AddScoped<IImages, ImageRepo>();
             builder.Services.AddDbContext<StoreDbContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 

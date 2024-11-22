@@ -20,8 +20,9 @@ namespace Store.Repo.repos
 
         public void addBrand(prodBrand prodBrand)
         {
-             _Context.Brands.AddAsync(prodBrand);
-             _Context.SaveChangesAsync();
+            var image=prodBrand.imageId;
+             _Context.Brands.Add(prodBrand);
+             _Context.SaveChanges();
         }
 
         public void deleteBrand(prodBrand brand)
@@ -32,12 +33,12 @@ namespace Store.Repo.repos
 
         public IReadOnlyList<prodBrand> getAllBrands()
         {
-          return _Context.Brands.ToList();
+          return _Context.Brands.Include(x=>x.image).ToList();
         }
 
         public prodBrand getBrandById(int id)
         {
-            return  _Context.Brands.Find(id);
+            return  _Context.Brands.Include(x=>x.image).FirstOrDefault(x=>x.ID==id);
         }
 
         public void updateBrand(prodBrand prodBrand)

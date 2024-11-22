@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Store.Repo\Store.Repo.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="services\NewFolder\" />
+  </ItemGroup>
+
 </Project>
