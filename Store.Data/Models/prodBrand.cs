@@ -11,6 +11,6 @@ namespace Store.Data.Models
        public  List<product> products;
         public string Name { get; set; }
         public image image { get; set; }
-        public int? imageId { get; set; }
+        public int ? imageId { get; set; }
     }
 }

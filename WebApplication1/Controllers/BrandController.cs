@@ -34,7 +34,12 @@ namespace ECOMMERECE.Controllers
         public void deleteBrand(int id)
         {
             _brandService.deleteBrand(id);
-         
+
+        }
+        [HttpPut("id")]
+        public void updateBrand(int?id,[FromForm]brandDto brandDto)
+        {
+            _brandService.updateBrand(id,brandDto);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Store.Repo.interfaces
     public interface Ibrand
     {
         public IReadOnlyList<prodBrand> getAllBrands();
-        public prodBrand getBrandById(int id);
+        public prodBrand getBrandById(int ?id);
         public void addBrand(prodBrand prodBrand);
         public void updateBrand(prodBrand prodBrand);
         public void deleteBrand(prodBrand brand);

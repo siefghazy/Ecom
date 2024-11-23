@@ -24,21 +24,28 @@ namespace Store.Services.services
 
         public  void  addBrand(brandDto brandDto)
         {
-            var imagePath = documentSetting.uploadFile(brandDto.FormImage, "images");
-            var brandImage=ImageUploadMiddleware.imageUpload(imagePath, _Image);
-            prodBrand brand = new prodBrand()
+            if (brandDto.FormImage is not null)
             {
-                Name = brandDto.Name,
-                imageId=brandImage.ID,
+                var imagePath = documentSetting.uploadFile(brandDto.FormImage, "images");
+                var brandImage = ImageUploadMiddleware.imageUpload(imagePath, _Image);
+                prodBrand brand = new prodBrand()
+                {
+                    Name = brandDto.Name,
+                    imageId = brandImage.ID,
 
-            };
-             _brand.addBrand(brand);
-        }
+                };
+                _brand.addBrand(brand);
+            }
+            else
+            {
+                prodBrand brand = new prodBrand()
+                {
+                    Name = brandDto.Name,
 
-        public  void deleteProduct(int id)
-        {
-            var product =  _brand.getBrandById(id);
-            _brand.deleteBrand(product);
+                };
+                _brand.addBrand(brand);
+            }
+
         }
 
         public  IReadOnlyList<brandDto> getAllBrands()
@@ -48,8 +55,8 @@ namespace Store.Services.services
             {
                 id = x.ID,
                 Name = x.Name,
-                imageUrl=(string)x.image.path,
-                ImageId=(int)x.image.ID,
+                imageUrl=x.image?.path,
+                ImageId=x.image?.ID,
             }).ToList();
             return mappedBrands;
         }
@@ -61,26 +68,78 @@ namespace Store.Services.services
             {
                 id=brand.ID,
                 Name = brand.Name,
-                imageUrl=brand.image.path,
-                ImageId=brand.image.ID,
+                imageUrl=brand.image?.path,
+                ImageId=brand.image?.ID,
             };
             return mappedBrand;
         }
 
-        public  void deleteBrand(int id)
+        public  void deleteBrand(int? id)
         {
-            var product =  _brand.getBrandById(id);
-
-            _brand.deleteBrand(product);
+            var product = _brand.getBrandById(id);
+            if (product.imageId is null)
+            {
+                _brand.deleteBrand(product);
+            }
+            else
+            {
+                ImageUploadMiddleware.deleteImageDuringRemoveBrand(product, _Image);
+                _brand.deleteBrand(product);
+            }
         }
 
-        public  void updateBrand(brandDto brandDto)
+        public  void updateBrand(int ?id,brandDto brandDto)
         {
-            prodBrand brand = new prodBrand
+            if (brandDto.FormImage is not null && brandDto.Name is not null)
             {
-                Name = brandDto.Name,
-            };
-           _brand.updateBrand(brand);
+                var brand = _brand.getBrandById(id);
+                var image = _Image.getImageById(brand.imageId);
+                if (image is null)
+                {
+                    var imagePath = documentSetting.uploadFile(brandDto.FormImage, "images");
+                    var brandImage = ImageUploadMiddleware.imageUpload(imagePath, _Image);
+                    brand.imageId = brandImage.ID;
+                    brand.Name = brandDto.Name;
+                    _brand.updateBrand(brand);
+                }
+                else
+                {
+                    var imagePath = documentSetting.uploadFile(brandDto.FormImage, "images");
+                    image.path = imagePath;
+                    brand.Name = brandDto.Name;
+                    _Image.updateImage(image);
+                    _brand.updateBrand(brand);
+                }
+
+            }
+            if (brandDto.FormImage is null || brandDto.Name is null)
+            {
+                if (brandDto.FormImage is null)
+                {
+                    var brand = _brand.getBrandById(id);
+                    brand.Name = brandDto.Name;
+                    _brand.updateBrand(brand);
+                }
+                else
+                {
+                    var brand = _brand.getBrandById(id);
+                    var image = _Image.getImageById(brand.imageId);
+                    if (image is null)
+                    {
+                        var imagePath = documentSetting.uploadFile(brandDto.FormImage, "images");
+                        var brandImage = ImageUploadMiddleware.imageUpload(imagePath, _Image);
+                        brand.imageId = brandImage.ID;
+                        _brand.updateBrand(brand);
+                    }
+                    else
+                    {
+                        var imagePath = documentSetting.uploadFile(brandDto.FormImage, "images");
+                        image.path = imagePath;
+                        _Image.updateImage(image);
+                    }
+                }
+
+            }
         }
 
     }

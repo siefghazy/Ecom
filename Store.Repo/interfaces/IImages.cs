@@ -10,9 +10,9 @@ namespace Store.Repo.interfaces
     public interface IImages
     {
         public void addImage(image image);
-        public image getImageById(int id);
+        public image getImageById(int ?id);
         public IReadOnlyList<image> getAllImages();
-        public void removeImage(image image);
+        public void removeImage(int ?id);
         public void updateImage(image image);
 
     }

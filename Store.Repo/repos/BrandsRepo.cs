@@ -36,7 +36,7 @@ namespace Store.Repo.repos
           return _Context.Brands.Include(x=>x.image).ToList();
         }
 
-        public prodBrand getBrandById(int id)
+        public prodBrand getBrandById(int? id)
         {
             return  _Context.Brands.Include(x=>x.image).FirstOrDefault(x=>x.ID==id);
         }
@@ -46,5 +46,7 @@ namespace Store.Repo.repos
             _Context.Brands.Update(prodBrand);
             _Context.SaveChanges();
         }
+
+
     }
 }

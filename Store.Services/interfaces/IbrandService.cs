@@ -12,7 +12,7 @@ namespace Store.Services.interfaces
         public IReadOnlyList<brandDto> getAllBrands();
         public  void addBrand(brandDto brandDto);
         public brandDto getProductById(int id);
-        public void updateBrand(brandDto brandDto);
-        public void deleteBrand(int id);
+        public void updateBrand(int ?id,brandDto brandDto);
+        public void deleteBrand(int ?id);
     }
 }

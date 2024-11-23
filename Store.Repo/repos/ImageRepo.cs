@@ -27,13 +27,14 @@ namespace Store.Repo.repos
            return  _context.images.ToList();
         }
 
-        public image getImageById(int id)
+        public image getImageById(int? id)
         {
             return _context.images.Find(id);
         }
 
-        public void removeImage(image image)
+        public void removeImage(int? id)
         {
+            var image= _context.images.Find(id);
             _context.Remove(image);
             _context.SaveChanges();
         }

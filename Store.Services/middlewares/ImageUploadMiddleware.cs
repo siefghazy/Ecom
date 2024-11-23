@@ -11,7 +11,7 @@ namespace Store.Services.middlewares
     public class ImageUploadMiddleware
     {
 
-        public static image imageUpload(string imagePath,IImages _image)
+        public static image imageUpload(string imagePath, IImages _image)
         {
             image imageToUpload = new image()
             {
@@ -19,6 +19,10 @@ namespace Store.Services.middlewares
             };
             _image.addImage(imageToUpload);
             return imageToUpload;
+        }
+        public static void deleteImageDuringRemoveBrand(prodBrand brand,IImages _image)
+        {
+            _image.removeImage((int)brand.imageId);
         }
     }
 }
