@@ -53,7 +53,7 @@ namespace Store.Services.services
             var brands = _brand.getAllBrands();
             var mappedBrands = brands.Select(x => new brandDto()
             {
-                id = x.ID,
+                id = x?.ID,
                 Name = x.Name,
                 imageUrl=x.image?.path,
                 ImageId=x.image?.ID,
@@ -66,10 +66,10 @@ namespace Store.Services.services
             var brand = _brand.getBrandById(id);
             var mappedBrand = new brandDto()
             {
-                id=brand.ID,
-                Name = brand.Name,
-                imageUrl=brand.image?.path,
-                ImageId=brand.image?.ID,
+                id=brand?.ID,
+                Name = brand?.Name,
+                imageUrl=brand?.image?.path,
+                ImageId=brand?.image?.ID,
             };
             return mappedBrand;
         }

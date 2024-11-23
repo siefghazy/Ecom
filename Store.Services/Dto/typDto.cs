@@ -8,7 +8,7 @@ namespace Store.Services.Dto
 {
     public class typDto
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string Name { get; set; }
     }
 }

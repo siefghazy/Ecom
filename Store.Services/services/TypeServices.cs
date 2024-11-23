@@ -22,14 +22,13 @@ namespace Store.Services.services
         {
             prodType type = new prodType()
             {
-                ID = typDto.id,
                 Name = typDto.Name
             };
              _type.addType(type);
 
         }
 
-        public async void deleteType(int id)
+        public void deleteType(int ?id)
         {
             var type =  _type.getTypeById(id);
             _type.deleteType(type);
@@ -46,7 +45,7 @@ namespace Store.Services.services
             return mappedTypes;
         }
 
-        public typDto getTypeById(int id)
+        public typDto getTypeById(int? id)
         {
             var type =  _type.getTypeById(id);
             var mappedType = new typDto
@@ -57,14 +56,14 @@ namespace Store.Services.services
             return mappedType;
         }
 
-        public void updateType(typDto typDto)
+        public void updateType(int ?id,typDto typDto)
         {
             prodType type = new prodType
             {
-                ID = typDto.id,
                 Name = typDto.Name,
             };
             _type.updateType(type);
         }
+
     }
 }

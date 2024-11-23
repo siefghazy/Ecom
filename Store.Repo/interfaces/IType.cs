@@ -10,7 +10,7 @@ namespace Store.Repo.interfaces
     public interface IType
     {
         public IReadOnlyList<prodType> getAllTypes();
-        public prodType getTypeById(int id);
+        public prodType getTypeById(int ?id);
         public void addType(prodType prodType);
         public void updateType(prodType prodType);
         public void deleteType(prodType prodType);

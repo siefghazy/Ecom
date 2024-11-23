@@ -21,7 +21,7 @@ namespace Store.Repo.repos
         public void  addType(prodType prodType)
         {
              _Context.AddAsync(prodType);
-            _Context.SaveChangesAsync();
+            _Context.SaveChanges();
         }
 
         public IReadOnlyList<prodType> getAllTypes()
@@ -29,7 +29,7 @@ namespace Store.Repo.repos
             return _Context.ProdTypes.ToList();
         }
 
-        public prodType getTypeById(int id)
+        public prodType getTypeById(int ?id)
         {
             return  _Context.ProdTypes.Find(id);
         }

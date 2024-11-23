@@ -11,8 +11,8 @@ namespace Store.Services.interfaces
     {
         public IReadOnlyList<typDto> getAllType();
         public void addType(typDto typDto);
-        public typDto getTypeById(int id);
-        public void updateType(typDto typDto);
-        public void deleteType(int id);
+        public typDto getTypeById(int? id);
+        public void updateType(int ? id,typDto typDto);
+        public void deleteType(int? id);
     }
 }
