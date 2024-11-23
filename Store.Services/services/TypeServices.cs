@@ -58,10 +58,8 @@ namespace Store.Services.services
 
         public void updateType(int ?id,typDto typDto)
         {
-            prodType type = new prodType
-            {
-                Name = typDto.Name,
-            };
+            var type = _type.getTypeById(id);
+            type.Name = typDto.Name;
             _type.updateType(type);
         }
 

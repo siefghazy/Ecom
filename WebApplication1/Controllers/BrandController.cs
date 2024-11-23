@@ -20,7 +20,7 @@ namespace ECOMMERECE.Controllers
         {
             return Ok(  _brandService.getAllBrands());
         }
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public ActionResult<brandDto> getBrandById(int id)
         {
             return Ok(_brandService.getProductById(id));
@@ -30,13 +30,13 @@ namespace ECOMMERECE.Controllers
         {
             _brandService.addBrand(brandDto);
         }
-        [HttpPost("id")]
+        [HttpPost("{id}")]
         public void deleteBrand(int id)
         {
             _brandService.deleteBrand(id);
 
         }
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public void updateBrand(int?id,[FromForm]brandDto brandDto)
         {
             _brandService.updateBrand(id,brandDto);
