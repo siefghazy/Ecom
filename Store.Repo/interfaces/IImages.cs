@@ -14,6 +14,6 @@ namespace Store.Repo.interfaces
         public IReadOnlyList<image> getAllImages();
         public void removeImage(int ?id);
         public void updateImage(image image);
-
+        public ICollection<image> getImageForProduct(int? productID);
     }
 }

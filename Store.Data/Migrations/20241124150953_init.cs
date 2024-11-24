@@ -12,21 +12,6 @@ namespace Store.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "images",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    path = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_images", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProdTypes",
                 columns: table => new
                 {
@@ -55,11 +40,6 @@ namespace Store.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Brands", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Brands_images_imageId",
-                        column: x => x.imageId,
-                        principalTable: "images",
-                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -71,7 +51,6 @@ namespace Store.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     typID = table.Column<int>(type: "int", nullable: false),
                     brandID = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -95,27 +74,24 @@ namespace Store.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "imagesOnProducts",
+                name: "images",
                 columns: table => new
                 {
-                    imagesID = table.Column<int>(type: "int", nullable: false),
-                    productsID = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    path = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    productID = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_imagesOnProducts", x => new { x.imagesID, x.productsID });
+                    table.PrimaryKey("PK_images", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_imagesOnProducts_Products_productsID",
-                        column: x => x.productsID,
+                        name: "FK_images_Products_productID",
+                        column: x => x.productID,
                         principalTable: "Products",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_imagesOnProducts_images_imagesID",
-                        column: x => x.imagesID,
-                        principalTable: "images",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateIndex(
@@ -126,9 +102,9 @@ namespace Store.Data.Migrations
                 filter: "[imageId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_imagesOnProducts_productsID",
-                table: "imagesOnProducts",
-                column: "productsID");
+                name: "IX_images_productID",
+                table: "images",
+                column: "productID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_brandID",
@@ -140,13 +116,24 @@ namespace Store.Data.Migrations
                 table: "Products",
                 column: "typID",
                 unique: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Brands_images_imageId",
+                table: "Brands",
+                column: "imageId",
+                principalTable: "images",
+                principalColumn: "ID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Brands_images_imageId",
+                table: "Brands");
+
             migrationBuilder.DropTable(
-                name: "imagesOnProducts");
+                name: "images");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -156,9 +143,6 @@ namespace Store.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProdTypes");
-
-            migrationBuilder.DropTable(
-                name: "images");
         }
     }
 }

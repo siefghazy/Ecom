@@ -12,7 +12,7 @@ using Store.Data.Context;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241121161352_init")]
+    [Migration("20241124150953_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -43,24 +43,14 @@ namespace Store.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("productID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
+                    b.HasIndex("productID");
+
                     b.ToTable("images");
-                });
-
-            modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
-                {
-                    b.Property<int>("imagesID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productsID")
-                        .HasColumnType("int");
-
-                    b.HasKey("imagesID", "productsID");
-
-                    b.HasIndex("productsID");
-
-                    b.ToTable("imagesOnProducts");
                 });
 
             modelBuilder.Entity("Store.Data.Models.prodBrand", b =>
@@ -127,9 +117,6 @@ namespace Store.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -159,19 +146,13 @@ namespace Store.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
+            modelBuilder.Entity("Store.Data.Models.image", b =>
                 {
-                    b.HasOne("Store.Data.Models.image", null)
-                        .WithMany()
-                        .HasForeignKey("imagesID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Store.Data.Models.product", "products")
+                        .WithMany("productImages")
+                        .HasForeignKey("productID");
 
-                    b.HasOne("Store.Data.Models.product", null)
-                        .WithMany()
-                        .HasForeignKey("productsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("products");
                 });
 
             modelBuilder.Entity("Store.Data.Models.prodBrand", b =>
@@ -217,6 +198,11 @@ namespace Store.Data.Migrations
                 {
                     b.Navigation("product")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Store.Data.Models.product", b =>
+                {
+                    b.Navigation("productImages");
                 });
 #pragma warning restore 612, 618
         }

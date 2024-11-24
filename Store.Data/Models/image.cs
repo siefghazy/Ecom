@@ -13,6 +13,7 @@ namespace Store.Data.Models
         [JsonIgnore]
         public prodBrand prodBrand { get; set; }
         [JsonIgnore]
-        public ICollection<product> products { get; set; }
+        public product products { get; set; }
+        public  int? productID { get; set; }
     }
 }
