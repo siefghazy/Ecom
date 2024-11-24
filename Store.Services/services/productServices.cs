@@ -25,10 +25,10 @@ namespace Store.Services.services
         public IReadOnlyList<product> getAllProducts()
         {
             var products = _product.getAllProducts();
-            foreach (var product in products)
+            /*foreach (var product in products)
             {
                product.productImages= _images.getImageForProduct(product.ID);
-            }
+            }*/
             return products;
         }
 

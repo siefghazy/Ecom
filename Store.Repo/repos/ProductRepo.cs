@@ -27,7 +27,7 @@ namespace Store.Repo.repos
 
         public IReadOnlyList<product> getAllProducts()
         {
-            return  _Context.Products.Include(x => x.prodBrand).Include(x => x.prodType).ToList();
+            return  _Context.Products.Include(x => x.prodBrand).Include(x => x.productImages).Include(x => x.prodType).ToList();
         }
 
         public product getPrdouctById(int id)
