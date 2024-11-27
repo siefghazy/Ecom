@@ -14,5 +14,6 @@ namespace Store.Repo.interfaces
         public void addProduct(product product);
         public void updateProduct(product product);
         public void removeProduct(product product);
+        public product addProductGet(product product);
     }
 }

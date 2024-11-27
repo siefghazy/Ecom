@@ -21,18 +21,20 @@ namespace Store.Repo.repos
 
         public void addProduct(product product)
         {
-             _Context.Products.AddAsync(product);
-             _Context.SaveChangesAsync();
+             _Context.Products.Add(product);
+             _Context.SaveChanges();
         }
 
         public IReadOnlyList<product> getAllProducts()
         {
-            return  _Context.Products.Include(x => x.prodBrand).Include(x => x.productImages).Include(x => x.prodType).ToList();
+            
+            return _Context.Products.Include(x=>x.prodBrand).Include(x => x.productImages).ThenInclude(productImages=>productImages.image).Include(x => x.prodType).ToList();
+
         }
 
         public product getPrdouctById(int id)
         {
-            return  _Context.Products.Include(x => x.prodBrand).Include(x => x.prodType).FirstOrDefault(x => x.ID == id);
+            return  _Context.Products.Include(x=>x.prodBrand).Include(x=>x.productImages).ThenInclude(productimages=>productimages.image).Include(x => x.prodType).FirstOrDefault(x => x.ID == id);
         }
 
         public void updateProduct(product product)
@@ -41,10 +43,25 @@ namespace Store.Repo.repos
              _Context.SaveChanges();
         }
 
+        public product addProductGet(product product)
+        {
+            product productToBeUploaded = new product()
+            {
+                description = product.description,
+                price = product.price,
+                brandID = product.brandID,
+                typID = product.typID,
+                CreatedAt = product.CreatedAt,
+                Name = product.Name,
+            };
+            _Context.Products.Add(productToBeUploaded);
+            _Context.SaveChanges();
+            return productToBeUploaded;
+        }
+
         void IProduct.removeProduct(product product)
         {
             _Context.Products.Remove(product);
-            _Context.SaveChanges();
         }
     }
 }

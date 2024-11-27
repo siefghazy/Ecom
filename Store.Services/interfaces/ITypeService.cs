@@ -1,4 +1,5 @@
-﻿using Store.Services.Dto;
+﻿
+using Store.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Store.Services.interfaces
 {
     public interface ITypeService
     {
-        public IReadOnlyList<typDto> getAllType();
-        public void addType(typDto typDto);
-        public typDto getTypeById(int? id);
-        public void updateType(int ? id,typDto typDto);
+        public IReadOnlyList<prodType> getAllType();
+        public void addType(prodType typ);
+        public prodType getTypeById(int? id);
+        public void updateType(int ? id,prodType typDto);
         public void deleteType(int? id);
     }
 }

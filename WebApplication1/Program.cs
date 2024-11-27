@@ -2,6 +2,7 @@
 using ECOMMERECE.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Store.Data.Context;
 using Store.Data.Models;
 using Store.Repo;
@@ -32,7 +33,9 @@ namespace WebApplication1
             builder.Services.AddScoped<IProductService, productServices>();
             builder.Services.AddScoped<ITypeService, TypeServices>();
             builder.Services.AddScoped<IImages, ImageRepo>();
-            builder.Services.AddDbContext<StoreDbContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<IimagesOnProduct, imageOnproductRepo>();
+            builder.Services.AddDbContext<StoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddControllers();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

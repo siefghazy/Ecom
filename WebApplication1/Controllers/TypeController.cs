@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Store.Services.Dto;
+using Store.Data.Models;
 using Store.Services.interfaces;
 
 namespace ECOMMERECE.Controllers
@@ -15,18 +15,18 @@ namespace ECOMMERECE.Controllers
             _typeService = typeService;
         }
         [HttpPost]
-        public void addType([FromBody] typDto typDto)
+        public void addType([FromBody] prodType typDto)
         {
             _typeService.addType(typDto);
         }
         [HttpGet]
-        public ActionResult<IReadOnlyList<typDto>> getAllTypes()
+        public ActionResult<IReadOnlyList<prodType>> getAllTypes()
         {
             return Ok(_typeService.getAllType());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<typDto> getTypeById(int? id)
+        public ActionResult<prodType> getTypeById(int? id)
         {
             return Ok(_typeService.getTypeById(id));
         }
@@ -36,7 +36,7 @@ namespace ECOMMERECE.Controllers
             _typeService.deleteType(id);
         }
         [HttpPut("{id}")]
-        public void updateType(int? id, typDto typDto)
+        public void updateType(int? id, prodType typDto)
         {
             _typeService.updateType(id, typDto);
         }

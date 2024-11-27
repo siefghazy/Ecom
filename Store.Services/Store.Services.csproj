@@ -16,14 +16,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Store.Repo\Store.Repo.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="services\NewFolder\" />
   </ItemGroup>
 
 </Project>

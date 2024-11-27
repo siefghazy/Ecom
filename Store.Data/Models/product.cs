@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,12 +15,15 @@ namespace Store.Data.Models
         public string Name { get; set; }
         public string? description { get; set; }
         public decimal price { get; set; }
-        [JsonIgnore]
         public prodType prodType { get; set; }
         public int? typID { get; set; }
+  
+        public  prodBrand prodBrand { get; set; }
+
+        public int? brandID { get; set; }
+        public ICollection<imagesOnProduct>? productImages { get; set; }
         [JsonIgnore]
-        public prodBrand prodBrand{ get; set; }
-        public int ?brandID { get; set; }
-        public ICollection<image> ?productImages { get; set; }
+        [NotMapped]
+        public ICollection<IFormFile> formImages { get; set; }
     }
 }

@@ -17,10 +17,10 @@ namespace Store.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<product>().HasOne(x => x.prodType).WithOne(x => x.product).HasForeignKey<product>(x => x.typID);
+            modelBuilder.Entity<product>().HasOne(x => x.prodType).WithMany(x => x.product).HasForeignKey(x => x.typID);
             modelBuilder.Entity<product>().HasOne(x => x.prodBrand).WithMany(x => x.products).HasForeignKey(x => x.brandID);
             modelBuilder.Entity<prodBrand>().HasOne(x => x.image).WithOne(x => x.prodBrand).HasForeignKey<prodBrand>(x => x.imageId);
-            modelBuilder.Entity<image>().HasOne(x => x.products).WithMany(x => x.productImages).HasForeignKey(x => x.productID);
+            modelBuilder.Entity<imagesOnProduct>().HasKey(x => new { x.productID, x.ImageID });
 
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
@@ -29,5 +29,6 @@ namespace Store.Data.Context
         public DbSet<prodBrand> Brands { get; set; }
         public DbSet<prodType> ProdTypes { get; set; }
         public DbSet<image> images { get; set; }
+        public DbSet<imagesOnProduct>imagesOnProducts { get; set; }
     }
 }

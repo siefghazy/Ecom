@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Store.Services.Dto;
+using Newtonsoft.Json;
+using Store.Data.Models;
+using Store.Repo.interfaces;
 using Store.Services.interfaces;
 
 namespace ECOMMERECE.Controllers
@@ -16,19 +18,20 @@ namespace ECOMMERECE.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IReadOnlyList<brandDto>>  getAllBrands()
+        public ActionResult<IReadOnlyList<prodBrand>>  getAllBrands()
         {
+           
             return Ok(  _brandService.getAllBrands());
         }
         [HttpGet("{id}")]
-        public ActionResult<brandDto> getBrandById(int id)
+        public ActionResult<prodBrand> getBrandById(int id)
         {
             return Ok(_brandService.getProductById(id));
         }
         [HttpPost]
-        public void addBrand([FromForm] brandDto brandDto)
+        public void addBrand([FromForm] prodBrand brand)
         {
-            _brandService.addBrand(brandDto);
+            _brandService.addBrand(brand);
         }
         [HttpPost("{id}")]
         public void deleteBrand(int id)
@@ -37,9 +40,9 @@ namespace ECOMMERECE.Controllers
 
         }
         [HttpPut("{id}")]
-        public void updateBrand(int?id,[FromForm]brandDto brandDto)
+        public void updateBrand(int?id,[FromForm]prodBrand brand)
         {
-            _brandService.updateBrand(id,brandDto);
+            _brandService.updateBrand(id,brand);
         }
     }
 }

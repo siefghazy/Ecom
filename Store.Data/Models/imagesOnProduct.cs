@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Store.Data.Models
 {
-    public class BaseEntity<T>
+    public class imagesOnProduct
     {
-        public T ID { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
-        public bool? isDeleted { get; set; }
+        [JsonIgnore]
+        public int? productID { get; set; }
+        public image image { get; set; }
+        [JsonIgnore]
+        public int ?ImageID { get; set; }
     }
 }

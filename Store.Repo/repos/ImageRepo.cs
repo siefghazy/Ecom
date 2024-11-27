@@ -44,9 +44,5 @@ namespace Store.Repo.repos
             _context.Update(image);
             _context.SaveChanges();
         }
-        public ICollection<image> getImageForProduct(int ?productID)
-        {
-            return _context.images.Where(x => x.productID == productID).ToList();
-        }
     }
 }

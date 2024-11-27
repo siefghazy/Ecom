@@ -1,8 +1,11 @@
 ﻿using CloudinaryDotNet.Actions;
+using ECOMMERECE.helper;
+using Microsoft.AspNetCore.Http;
 using Store.Data.Models;
 using Store.Repo.interfaces;
-using Store.Services.Dto;
+using Store.Services.DTO;
 using Store.Services.interfaces;
+using Store.Services.middlewares;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,30 +18,72 @@ namespace Store.Services.services
     { 
         private readonly IProduct _product;
         private readonly IImages _images;
-        public productServices(IProduct product,IImages images)
+        private readonly Ibrand _brand;
+        private readonly IType _type;
+        private readonly IimagesOnProduct _imageOnProduct;
+        public productServices(IProduct product,IImages images,Ibrand brand,IType type,IimagesOnProduct iimagesOnProduct)
         {
             _product = product;
             _images = images;
+            _brand = brand;
+            _type = type;
+            _imageOnProduct = iimagesOnProduct;
         }
 
 
-        public IReadOnlyList<product> getAllProducts()
+        public IReadOnlyList<productDTO> getAllProducts()
         {
             var products = _product.getAllProducts();
-            return products;
+            var mappedProduct = products.Select(p=>new productDTO()
+            {
+                productDtoID= p.ID,
+                name = p.Name,
+                description=p.description,
+                price=p.price,
+                productBrandDtoID=p.prodBrand.ID,
+                productBrandDtoName=p.prodBrand.Name,
+                productBrandDtoImageUrl=p.prodBrand.image?.path,
+               productTypeDtoId=p.prodType.ID,
+               productTypeDtoName=p.prodType.Name,
+                productDtoImageUrl = p.productImages.Select(i => (dynamic)new {imageID=i.image.ID,path=i.image.path}).ToList()
+            });
+            return mappedProduct.ToList();
         }
+        
 
-
-        public  product getProductById(int id)
+        public  productDTO getProductById(int id)
         {
-            var product =  _product.getPrdouctById(id);
-            return product;
+            var product = _product.getPrdouctById(id);
+            var producImages = product.productImages.Select(i => (dynamic)new 
+            {
+                path=i.image.path,
+                imageId=i.ImageID
+            }).ToList();
+            productDTO productToBeMapped = new productDTO()
+            {
+                name = product.Name,
+                description=product.description,
+                price = product.price,
+                productDtoID = product.ID,
+                productBrandDtoID=product.prodBrand.ID,                
+                productBrandDtoName=product.prodBrand.Name,
+                productBrandDtoImageUrl=product.prodBrand.image?.path,
+                productTypeDtoId=product.prodType.ID,
+                productTypeDtoName=product.prodType.Name,
+                productDtoImageUrl=producImages
+            };
+            return productToBeMapped;
         }
 
         public  void deleteProduct(int id)
         {
-            var product =  _product.getPrdouctById(id);
+            var product = _product.getPrdouctById(id);
             _product.removeProduct(product);
+            _imageOnProduct.removeProduct(id);
+            foreach (var image in product.productImages)
+            {
+                _images.removeImage(image.ImageID);
+            }
         }
 
         public  void updateProduct(product product)
@@ -51,26 +96,38 @@ namespace Store.Services.services
                 brandID = product.brandID,
                 typID = product.typID,
                 price = product.price,
-                CreatedAt = (DateTime)product.CreatedAt,
-               // ImageUrl = product.imageUrl,
+                CreatedAt = (DateTime)product.CreatedAt
             };
             _product.updateProduct(updateProduct);
         }
 
-        public  void addProduct(product product)
+        public  void addProduct(productDTO productDTO)
         {
-            product mappedProduct = new product()
+
+            var brandGet = _brand.getAllBrands().FirstOrDefault(b => b.Name == productDTO.productBrandDtoName);
+            var typGet = _type.getAllTypes().FirstOrDefault(x => x.Name == productDTO.productTypeDtoName);
+            product product1 = new product()
             {
-                ID =product.ID,
-                description = product.description,
-                price = product.price,
-                brandID = product.brandID,
-                typID = product.typID,
-                CreatedAt = (DateTime)product.CreatedAt,
-                Name = product.Name,
-                //ImageUrl = productDto.imageUrl
+                description = productDTO.description,
+                price = productDTO.price,
+                brandID = brandGet.ID,
+                typID = typGet.ID,
+                CreatedAt = DateTime.Now,
+                Name = productDTO.name,
             };
-             _product.addProduct(mappedProduct);
+            var productAdded=_product.addProductGet(product1);
+            foreach (IFormFile file in productDTO.formImages)
+            {
+                var path = documentSetting.uploadFile(file, "images");
+                var uploadedImage = ImageUploadMiddleware.imageUpload(path, _images);
+                var imageOnProduct = new imagesOnProduct()
+                {
+                    productID = productAdded.ID,
+                    ImageID = uploadedImage.ID
+                };
+                _imageOnProduct.addOnImageOnProduct(imageOnProduct);
+            }
         }
+
     }
 }
