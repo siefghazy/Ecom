@@ -33,12 +33,12 @@ namespace Store.Repo.repos
 
         public IReadOnlyList<prodBrand> getAllBrands()
         {
-          return _Context.Brands.Include(x=>x.image).ToList();
+          return _Context.Brands.Include(x=>x.products).ThenInclude(products=>products.productImages).ThenInclude(productImages=>productImages.image).Include(x=>x.image).ToList();
         }
 
         public prodBrand getBrandById(int? id)
         {
-            return  _Context.Brands.Include(x=>x.image).FirstOrDefault(x=>x.ID==id);
+            return  _Context.Brands.Include(x => x.products).ThenInclude(products => products.productImages).ThenInclude(productImages => productImages.image).Include(x=>x.image).FirstOrDefault(x=>x.ID==id);
         }
 
         public void updateBrand(prodBrand prodBrand)

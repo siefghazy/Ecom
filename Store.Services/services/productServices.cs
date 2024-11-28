@@ -1,6 +1,7 @@
 ﻿using CloudinaryDotNet.Actions;
 using ECOMMERECE.helper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Store.Data.Models;
 using Store.Repo.interfaces;
 using Store.Services.DTO;
@@ -21,13 +22,16 @@ namespace Store.Services.services
         private readonly Ibrand _brand;
         private readonly IType _type;
         private readonly IimagesOnProduct _imageOnProduct;
-        public productServices(IProduct product,IImages images,Ibrand brand,IType type,IimagesOnProduct iimagesOnProduct)
+        private readonly ILoggerFactory _loggerFactory;
+
+        public productServices(IProduct product,IImages images,Ibrand brand,IType type,IimagesOnProduct iimagesOnProduct,ILoggerFactory loggerFactory)
         {
             _product = product;
             _images = images;
             _brand = brand;
             _type = type;
             _imageOnProduct = iimagesOnProduct;
+            _loggerFactory = loggerFactory;
         }
 
 
@@ -79,8 +83,7 @@ namespace Store.Services.services
         {
             var product = _product.getPrdouctById(id);
             _product.removeProduct(product);
-            _imageOnProduct.removeProduct(id);
-            foreach (var image in product.productImages)
+           foreach (var image in product.productImages)
             {
                 _images.removeImage(image.ImageID);
             }
@@ -103,29 +106,36 @@ namespace Store.Services.services
 
         public  void addProduct(productDTO productDTO)
         {
-
-            var brandGet = _brand.getAllBrands().FirstOrDefault(b => b.Name == productDTO.productBrandDtoName);
-            var typGet = _type.getAllTypes().FirstOrDefault(x => x.Name == productDTO.productTypeDtoName);
-            product product1 = new product()
+            try
             {
-                description = productDTO.description,
-                price = productDTO.price,
-                brandID = brandGet.ID,
-                typID = typGet.ID,
-                CreatedAt = DateTime.Now,
-                Name = productDTO.name,
-            };
-            var productAdded=_product.addProductGet(product1);
-            foreach (IFormFile file in productDTO.formImages)
-            {
-                var path = documentSetting.uploadFile(file, "images");
-                var uploadedImage = ImageUploadMiddleware.imageUpload(path, _images);
-                var imageOnProduct = new imagesOnProduct()
+                var brandGet = _brand.getAllBrands().FirstOrDefault(b => b.Name == productDTO.productBrandDtoName);
+                var typGet = _type.getAllTypes().FirstOrDefault(x => x.Name == productDTO.productTypeDtoName);
+                product product1 = new product()
                 {
-                    productID = productAdded.ID,
-                    ImageID = uploadedImage.ID
+                    description = productDTO.description,
+                    price = productDTO.price,
+                    brandID = brandGet.ID,
+                    typID = typGet.ID,
+                    CreatedAt = DateTime.Now,
+                    Name = productDTO.name,
                 };
-                _imageOnProduct.addOnImageOnProduct(imageOnProduct);
+                var productAdded = _product.addProductGet(product1);
+                foreach (IFormFile file in productDTO.formImages)
+                {
+                    var path = documentSetting.uploadFile(file, "images");
+                    var uploadedImage = ImageUploadMiddleware.imageUpload(path, _images);
+                    var imageOnProduct = new imagesOnProduct()
+                    {
+                        productID = productAdded.ID,
+                        ImageID = uploadedImage.ID
+                    };
+                    _imageOnProduct.addOnImageOnProduct(imageOnProduct);
+                }
+            }
+            catch (Exception err)
+            {
+                var log = _loggerFactory.CreateLogger("ProductProcessing");
+                log.LogError(err, "An error occurred while processing the product.",err.Message);
             }
         }
 

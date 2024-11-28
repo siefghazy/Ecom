@@ -17,7 +17,7 @@ namespace Store.Data.Models
         public decimal price { get; set; }
         public prodType prodType { get; set; }
         public int? typID { get; set; }
-  
+        [JsonIgnore]
         public  prodBrand prodBrand { get; set; }
 
         public int? brandID { get; set; }

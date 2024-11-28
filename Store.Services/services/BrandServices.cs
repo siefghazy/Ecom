@@ -1,6 +1,8 @@
 ﻿using ECOMMERECE.helper;
 using Store.Data.Models;
 using Store.Repo.interfaces;
+using Store.Repo.repos;
+using Store.Services.DTO;
 using Store.Services.interfaces;
 using Store.Services.middlewares;
 using System;
@@ -21,7 +23,7 @@ namespace Store.Services.services
             _Image = image;
         }
 
-        public  void  addBrand(prodBrand brand)
+       /* public  void  addBrand(BrandDto brand)
         {
             if (brand.FormImage is not null)
             {
@@ -35,19 +37,52 @@ namespace Store.Services.services
                 };
                 _brand.addBrand(brand);
             }
-        }
+        }*/
 
-        public  IReadOnlyList<prodBrand> getAllBrands()
+        public  IReadOnlyList<BrandDto> getAllBrands()
         {
-            var brands = _brand.getAllBrands();
-
+            var brands = _brand.getAllBrands().Select(x => new BrandDto()
+            {
+                Name = x.Name,
+                brandDtoId = x.ID,
+                imageUrl = x.image?.path,
+                products = x.products.Select(p => new
+                {
+                    productID = p.ID,
+                    productName = p.Name,
+                    productDescribtion = p.description,
+                    productImages = p.productImages.Select(i => new
+                    {
+                        imageID = i.image.ID,
+                        paht=i.image.path
+                    })
+                }).ToList<dynamic>()
+            }).ToList();
             return brands;
+
         }
 
-        public  prodBrand getProductById(int ?id)
+        public  BrandDto getProductById(int ?id)
         {
             var brand = _brand.getBrandById(id);
-            return brand;
+            BrandDto mappedProduct = new BrandDto()
+            {
+                brandDtoId= brand.ID,
+                Name = brand.Name,
+                imageUrl= brand.image?.path,
+                products=brand.products.Select(p => new
+                {
+                    productID = p.ID,
+                    productName = p.Name,
+                    productDescribtion = p.description,
+                    productImages = p.productImages.Select(i => new
+                    {
+                        imageID = i.image.ID,
+                        paht = i.image.path
+                    })
+                }).ToList<dynamic>()
+            };
+            return mappedProduct;
         }
 
         public  void deleteBrand(int? id)
@@ -64,15 +99,15 @@ namespace Store.Services.services
             }
         }
 
-        public  void updateBrand(int ?id,prodBrand brandToBeUpdated)
+        public  void updateBrand(int id,BrandDto brandToBeUpdated)
         {
-            if (brandToBeUpdated.FormImage is not null && brandToBeUpdated.Name is not null)
+            if (brandToBeUpdated.formImage is not null && brandToBeUpdated.Name is not null)
             {
                 var brand = _brand.getBrandById(id);
                 var image = _Image.getImageById(brand.imageId);
                 if (image is null)
                 {
-                    var imagePath = documentSetting.uploadFile(brandToBeUpdated.FormImage, "images");
+                    var imagePath = documentSetting.uploadFile(brandToBeUpdated.formImage, "images");
                     var brandImage = ImageUploadMiddleware.imageUpload(imagePath, _Image);
                     brand.imageId = brandImage.ID;
                     brand.Name = brandToBeUpdated.Name;
@@ -80,7 +115,7 @@ namespace Store.Services.services
                 }
                 else
                 {
-                    var imagePath = documentSetting.uploadFile(brandToBeUpdated.FormImage, "images");
+                    var imagePath = documentSetting.uploadFile(brandToBeUpdated.formImage, "images");
                     image.path = imagePath;
                     brand.Name = brandToBeUpdated.Name;
                     _Image.updateImage(image);
@@ -88,9 +123,9 @@ namespace Store.Services.services
                 }
 
             }
-            if (brandToBeUpdated.FormImage is null || brandToBeUpdated.Name is null)
+            if (brandToBeUpdated.formImage is null || brandToBeUpdated.Name is null)
             {
-                if (brandToBeUpdated.FormImage is null)
+                if (brandToBeUpdated.formImage is null)
                 {
                     var brand = _brand.getBrandById(id);
                     brand.Name = brandToBeUpdated.Name;
@@ -102,14 +137,14 @@ namespace Store.Services.services
                     var image = _Image.getImageById(brand.imageId);
                     if (image is null)
                     {
-                        var imagePath = documentSetting.uploadFile(brandToBeUpdated.FormImage, "images");
+                        var imagePath = documentSetting.uploadFile(brandToBeUpdated.formImage, "images");
                         var brandImage = ImageUploadMiddleware.imageUpload(imagePath, _Image);
                         brand.imageId = brandImage.ID;
                         _brand.updateBrand(brand);
                     }
                     else
                     {
-                        var imagePath = documentSetting.uploadFile(brandToBeUpdated.FormImage, "images");
+                        var imagePath = documentSetting.uploadFile(brandToBeUpdated.formImage, "images");
                         image.path = imagePath;
                         _Image.updateImage(image);
                     }

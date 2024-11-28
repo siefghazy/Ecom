@@ -1,5 +1,5 @@
 ﻿using Store.Data.Models;
-
+using Store.Services.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,10 @@ namespace Store.Services.interfaces
 {
     public interface IbrandService
     {
-        public IReadOnlyList<prodBrand> getAllBrands();
-        public  void addBrand(prodBrand brandDto);
-        public prodBrand getProductById(int ?id);
-        public void updateBrand(int ?id,prodBrand brandDto);
+        public IReadOnlyList<BrandDto> getAllBrands();
+      //  public  void addBrand(BrandDto brandDto);
+        public BrandDto getProductById(int ?id);
+        public void updateBrand(int id,BrandDto brandDto);
         public void deleteBrand(int ?id);
     }
 }
