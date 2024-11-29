@@ -29,21 +29,21 @@ namespace ECOMMERECE.Controllers
         {
             return Ok(_brandService.getProductById(id));
         }
-       /* [HttpPost]
-        public void addBrand([FromForm] prodBrand brand)
+        [HttpPost]
+        public void addBrand([FromForm] BrandDto brand)
         {
             _brandService.addBrand(brand);
-        }*/
+        }
         [HttpPost("{id}")]
         public void deleteBrand(int id)
         {
             _brandService.deleteBrand(id);
 
         }
-        /*[HttpPut("{id}")]
-        public void updateBrand(int?id,[FromForm]prodBrand brand)
+        [HttpPut("{id}")]
+        public void updateBrand(int?id,[FromForm]BrandDto brand)
         {
             _brandService.updateBrand(id,brand);
-        }*/
+        }
     }
 }

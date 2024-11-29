@@ -11,9 +11,9 @@ namespace Store.Services.interfaces
     public interface IbrandService
     {
         public IReadOnlyList<BrandDto> getAllBrands();
-      //  public  void addBrand(BrandDto brandDto);
+        public  void addBrand(BrandDto brandDto);
         public BrandDto getProductById(int ?id);
-        public void updateBrand(int id,BrandDto brandDto);
+        public void updateBrand(int? id,BrandDto brandDto);
         public void deleteBrand(int ?id);
     }
 }

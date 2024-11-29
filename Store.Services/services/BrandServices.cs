@@ -23,11 +23,11 @@ namespace Store.Services.services
             _Image = image;
         }
 
-       /* public  void  addBrand(BrandDto brand)
+        public  void  addBrand(BrandDto brand)
         {
-            if (brand.FormImage is not null)
+            if (brand.formImage is not null)
             {
-                var imagePath = documentSetting.uploadFile(brand.FormImage, "images");
+                var imagePath = documentSetting.uploadFile(brand.formImage, "images");
                 var brandImage = ImageUploadMiddleware.imageUpload(imagePath, _Image);
                 prodBrand newBrand = new prodBrand()
                 {
@@ -35,9 +35,17 @@ namespace Store.Services.services
                     imageId = brandImage.ID,
 
                 };
-                _brand.addBrand(brand);
+                _brand.addBrand(newBrand);
             }
-        }*/
+            else
+            {
+                prodBrand newBrandUpload = new prodBrand()
+                {
+                    Name = brand.Name,
+                };
+                _brand.addBrand(newBrandUpload);
+            }
+        }
 
         public  IReadOnlyList<BrandDto> getAllBrands()
         {
@@ -46,15 +54,15 @@ namespace Store.Services.services
                 Name = x.Name,
                 brandDtoId = x.ID,
                 imageUrl = x.image?.path,
-                products = x.products.Select(p => new
+                products = x.products?.Select(p => new
                 {
                     productID = p.ID,
                     productName = p.Name,
                     productDescribtion = p.description,
-                    productImages = p.productImages.Select(i => new
+                    productImages = p.productImages?.Select(i => new
                     {
-                        imageID = i.image.ID,
-                        paht=i.image.path
+                        imageID = i.image?.ID,
+                        paht=i.image?.path
                     })
                 }).ToList<dynamic>()
             }).ToList();
@@ -70,15 +78,15 @@ namespace Store.Services.services
                 brandDtoId= brand.ID,
                 Name = brand.Name,
                 imageUrl= brand.image?.path,
-                products=brand.products.Select(p => new
+                products=brand.products?.Select(p => new
                 {
                     productID = p.ID,
                     productName = p.Name,
                     productDescribtion = p.description,
-                    productImages = p.productImages.Select(i => new
+                    productImages = p.productImages?.Select(i => new
                     {
-                        imageID = i.image.ID,
-                        paht = i.image.path
+                        imageID = i.image?.ID,
+                        paht = i.image?.path
                     })
                 }).ToList<dynamic>()
             };
@@ -99,7 +107,7 @@ namespace Store.Services.services
             }
         }
 
-        public  void updateBrand(int id,BrandDto brandToBeUpdated)
+        public  void updateBrand(int ?id,BrandDto brandToBeUpdated)
         {
             if (brandToBeUpdated.formImage is not null && brandToBeUpdated.Name is not null)
             {
@@ -152,6 +160,5 @@ namespace Store.Services.services
 
             }
         }
-
     }
 }

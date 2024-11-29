@@ -44,12 +44,12 @@ namespace Store.Services.services
                 name = p.Name,
                 description=p.description,
                 price=p.price,
-                productBrandDtoID=p.prodBrand.ID,
-                productBrandDtoName=p.prodBrand.Name,
-                productBrandDtoImageUrl=p.prodBrand.image?.path,
-               productTypeDtoId=p.prodType.ID,
-               productTypeDtoName=p.prodType.Name,
-                productDtoImageUrl = p.productImages.Select(i => (dynamic)new {imageID=i.image.ID,path=i.image.path}).ToList()
+                productBrandDtoID=p.prodBrand?.ID,
+                productBrandDtoName=p.prodBrand?.Name,
+                productBrandDtoImageUrl=p.prodBrand?.image?.path,
+               productTypeDtoId=p.prodType?.ID,
+               productTypeDtoName=p.prodType?.Name,
+                productDtoImageUrl = p.productImages?.Select(i => (dynamic)new {imageID=i.image.ID,path=i.image.path}).ToList()
             });
             return mappedProduct.ToList();
         }
@@ -69,11 +69,11 @@ namespace Store.Services.services
                 description=product.description,
                 price = product.price,
                 productDtoID = product.ID,
-                productBrandDtoID=product.prodBrand.ID,                
-                productBrandDtoName=product.prodBrand.Name,
-                productBrandDtoImageUrl=product.prodBrand.image?.path,
-                productTypeDtoId=product.prodType.ID,
-                productTypeDtoName=product.prodType.Name,
+                productBrandDtoID=product.prodBrand?.ID,                
+                productBrandDtoName=product.prodBrand?.Name,
+                productBrandDtoImageUrl=product.prodBrand?.image?.path,
+                productTypeDtoId=product.prodType?.ID,
+                productTypeDtoName=product.prodType?.Name,
                 productDtoImageUrl=producImages
             };
             return productToBeMapped;

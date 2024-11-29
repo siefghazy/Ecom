@@ -14,7 +14,7 @@ namespace Store.Data.Models
     {
         public string Name { get; set; }
         public string? description { get; set; }
-        public decimal price { get; set; }
+        public decimal? price { get; set; }
         public prodType prodType { get; set; }
         public int? typID { get; set; }
         [JsonIgnore]

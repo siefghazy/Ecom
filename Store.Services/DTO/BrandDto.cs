@@ -12,7 +12,7 @@ namespace Store.Services.DTO
     {
         public int? brandDtoId { get; set; }
         public string? Name { get; set; }
-        public List<dynamic> products { get; set; }
+        public List<dynamic>? products { get; set; }
         public string? imageUrl { get; set; }
         [JsonIgnore]
         public IFormFile? formImage { get; set; }
