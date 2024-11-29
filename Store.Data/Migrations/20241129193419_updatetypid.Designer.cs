@@ -12,8 +12,8 @@ using Store.Data.Context;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241127170559_init")]
-    partial class init
+    [Migration("20241129193419_updatetypid")]
+    partial class updatetypid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,7 +140,7 @@ namespace Store.Data.Migrations
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("price")
+                    b.Property<decimal?>("price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("typID")
@@ -189,7 +189,8 @@ namespace Store.Data.Migrations
 
                     b.HasOne("Store.Data.Models.prodType", "prodType")
                         .WithMany("product")
-                        .HasForeignKey("typID");
+                        .HasForeignKey("typID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("prodBrand");
 

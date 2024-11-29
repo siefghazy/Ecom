@@ -20,7 +20,7 @@ namespace Store.Repo.repos
 
         public void  addType(prodType prodType)
         {
-             _Context.AddAsync(prodType);
+             _Context.Add(prodType);
             _Context.SaveChanges();
         }
 
@@ -36,7 +36,7 @@ namespace Store.Repo.repos
 
         public void updateType(prodType productType)
         {
-            _Context.Update(productType);
+            _Context.ProdTypes.Update(productType);
             _Context.SaveChanges();
         }
 

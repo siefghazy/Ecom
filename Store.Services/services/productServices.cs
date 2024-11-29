@@ -119,18 +119,26 @@ namespace Store.Services.services
                     CreatedAt = DateTime.Now,
                     Name = productDTO.name,
                 };
-                var productAdded = _product.addProductGet(product1);
-                foreach (IFormFile file in productDTO.formImages)
+                if (productDTO.formImages is null)
                 {
-                    var path = documentSetting.uploadFile(file, "images");
-                    var uploadedImage = ImageUploadMiddleware.imageUpload(path, _images);
-                    var imageOnProduct = new imagesOnProduct()
-                    {
-                        productID = productAdded.ID,
-                        ImageID = uploadedImage.ID
-                    };
-                    _imageOnProduct.addOnImageOnProduct(imageOnProduct);
+                    _product.addProduct(product1);
                 }
+                else
+                {
+                    var productAdded = _product.addProductGet(product1);
+                    foreach (IFormFile file in productDTO.formImages)
+                    {
+                        var path = documentSetting.uploadFile(file, "images");
+                        var uploadedImage = ImageUploadMiddleware.imageUpload(path, _images);
+                        var imageOnProduct = new imagesOnProduct()
+                        {
+                            productID = productAdded.ID,
+                            ImageID = uploadedImage.ID
+                        };
+                        _imageOnProduct.addOnImageOnProduct(imageOnProduct);
+                    }
+                }
+               
             }
             catch (Exception err)
             {

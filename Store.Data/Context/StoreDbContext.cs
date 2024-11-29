@@ -17,7 +17,7 @@ namespace Store.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<product>().HasOne(x => x.prodType).WithMany(x => x.product).HasForeignKey(x => x.typID);
+            modelBuilder.Entity<product>().HasOne(x => x.prodType).WithMany(x => x.product).HasForeignKey(x => x.typID).OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<product>().HasOne(x => x.prodBrand).WithMany(x => x.products).HasForeignKey(x => x.brandID);
             modelBuilder.Entity<prodBrand>().HasOne(x => x.image).WithOne(x => x.prodBrand).HasForeignKey<prodBrand>(x => x.imageId);
             modelBuilder.Entity<imagesOnProduct>().HasKey(x => new { x.productID, x.ImageID });

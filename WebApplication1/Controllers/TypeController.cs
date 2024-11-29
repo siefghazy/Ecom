@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Store.Data.Models;
+using Store.Services.DTO;
 using Store.Services.interfaces;
 
 namespace ECOMMERECE.Controllers
@@ -15,7 +16,7 @@ namespace ECOMMERECE.Controllers
             _typeService = typeService;
         }
         [HttpPost]
-        public void addType([FromBody] prodType typDto)
+        public void addType([FromBody] typeDto typDto)
         {
             _typeService.addType(typDto);
         }
@@ -36,7 +37,7 @@ namespace ECOMMERECE.Controllers
             _typeService.deleteType(id);
         }
         [HttpPut("{id}")]
-        public void updateType(int? id, prodType typDto)
+        public void updateType(int? id, typeDto typDto)
         {
             _typeService.updateType(id, typDto);
         }

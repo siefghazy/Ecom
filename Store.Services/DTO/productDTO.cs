@@ -22,6 +22,6 @@ namespace Store.Services.DTO
         public string  productTypeDtoName { get; set; }
         public List<dynamic> ?productDtoImageUrl { get; set; }
         [JsonIgnore]
-        public ICollection<IFormFile> formImages { get; set; }
+        public ICollection<IFormFile>? formImages { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Store.Data.Models;
 using Store.Repo.interfaces;
+using Store.Services.DTO;
 using Store.Services.interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,13 @@ namespace Store.Services.services
            _type = type;
         }
 
-        public  void addType(prodType typ)
+        public  void addType(typeDto type)
         {
-            prodType type = new prodType()
+            prodType typeUpload = new prodType()
             {
-                Name = typ.Name
+                Name = type.typeNameDto
             };
-             _type.addType(type);
+             _type.addType(typeUpload);
 
         }
 
@@ -33,24 +34,33 @@ namespace Store.Services.services
             _type.deleteType(type);
         }
 
-        public  IReadOnlyList<prodType> getAllType()
+        public  IReadOnlyList<typeDto> getAllType()
         {
-            var types =  _type.getAllTypes();
-            return types;
+            var types = _type.getAllTypes();
+            var mappedType = types.Select(x=>new typeDto()
+            {
+                typeNameDto=x.Name,
+                typeDtoID=x.ID
+            }).ToList();
+            return mappedType;
         }
 
-        public prodType getTypeById(int? id)
+        public typeDto getTypeById(int? id)
         {
             var type =  _type.getTypeById(id);
-            return type;
+            typeDto typeMapped = new typeDto()
+            {
+                typeNameDto = type.Name,
+                typeDtoID = type.ID
+            };
+            return typeMapped;
         }
 
-        public void updateType(int ?id,prodType typDto)
+        public void updateType(int ?id,typeDto typDtoUpload)
         {
             var type = _type.getTypeById(id);
-            type.Name = typDto.Name;
+            type.Name = typDtoUpload.typeNameDto;
             _type.updateType(type);
         }
-
     }
 }
