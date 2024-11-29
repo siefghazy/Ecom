@@ -19,7 +19,7 @@ namespace ECOMMERECE.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IReadOnlyList<BrandDto>>  getAllBrands()
+        public ActionResult<IReadOnlyList<BrandDto>>getAllBrands()
         {
            
             return Ok(  _brandService.getAllBrands());

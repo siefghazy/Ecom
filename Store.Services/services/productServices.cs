@@ -60,8 +60,8 @@ namespace Store.Services.services
             var product = _product.getPrdouctById(id);
             var producImages = product.productImages.Select(i => (dynamic)new 
             {
-                path=i.image.path,
-                imageId=i.ImageID
+                path=i.image?.path,
+                imageId=i.image?.ID
             }).ToList();
             productDTO productToBeMapped = new productDTO()
             {
