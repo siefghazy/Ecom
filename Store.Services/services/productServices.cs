@@ -58,7 +58,7 @@ namespace Store.Services.services
         public  productDTO getProductById(int id)
         {
             var product = _product.getPrdouctById(id);
-            var producImages = product.productImages.Select(i => (dynamic)new 
+            var producImages = product.productImages?.Select(i => (dynamic)new 
             {
                 path=i.image?.path,
                 imageId=i.image?.ID
