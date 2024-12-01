@@ -82,11 +82,19 @@ namespace Store.Services.services
         public  void deleteProduct(int id)
         {
             var product = _product.getPrdouctById(id);
-            _product.removeProduct(product);
-           foreach (var image in product.productImages)
+            if (product.productImages.Count==0)
             {
-                _images.removeImage(image.ImageID);
+                _product.removeProduct(product);
             }
+           else
+            {
+                _product.removeProduct(product);
+                foreach (var image in product.productImages)
+                {
+                    _images.removeImage(image.ImageID);
+                }
+            }
+
         }
 
         public  void updateProduct(product product)

@@ -59,9 +59,10 @@ namespace Store.Repo.repos
             return productToBeUploaded;
         }
 
-        void IProduct.removeProduct(product product)
+        public void  removeProduct(product product)
         {
             _Context.Products.Remove(product);
+            _Context.SaveChanges();
         }
     }
 }

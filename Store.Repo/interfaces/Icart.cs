@@ -8,6 +8,6 @@ namespace Store.Repo.interfaces
 {
     public interface Icart
     {
-        public 
+       
     }
 }
