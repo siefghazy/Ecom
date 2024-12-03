@@ -1,5 +1,7 @@
 
 using ECOMMERECE.Controllers;
+using ECOMMERECE.Errors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -36,6 +38,28 @@ namespace WebApplication1
             builder.Services.AddScoped<IimagesOnProduct, imageOnproductRepo>();
             builder.Services.AddDbContext<StoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
+            builder.Services.Configure<ApiBehaviorOptions>(
+                option=>option.InvalidModelStateResponseFactory=(ActionContext) =>
+                {
+                    var errors = ActionContext.ModelState.Where(p => p.Value.Errors.Count() > 0)
+                    .SelectMany(e => e.Value.Errors)
+                    .Select(e => e.ErrorMessage).ToArray();
+
+                    var response = new apiValidationHandle()
+                    {
+                        Errors = errors
+                    };
+                    return  new BadRequestObjectResult(response);
+                }
+                );
+
+
+
+
+
+
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
