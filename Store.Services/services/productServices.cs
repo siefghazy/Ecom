@@ -48,7 +48,7 @@ namespace Store.Services.services
                     price = p.price,
                     productBrandDtoID = p.prodBrand?.ID,
                     productBrandDtoName = p.prodBrand?.Name,
-                    productBrandDtoImageUrl = p.prodBrand?.image?.path,
+                    productBrandDtoImageUrl = p.prodBrand?.image.path,
                     productTypeDtoId = p.prodType?.ID,
                     productTypeDtoName = p.prodType?.Name,
                     productDtoImageUrl = p.productImages?.Select(i => (dynamic)new { imageID = i.image.ID, path = i.image.path }).ToList()
@@ -122,8 +122,6 @@ namespace Store.Services.services
 
         public  void addProduct(productDTO productDTO)
         {
-            try
-            {
                 var brandGet = _brand.getAllBrands().FirstOrDefault(b => b.Name == productDTO.productBrandDtoName);
                 var typGet = _type.getAllTypes().FirstOrDefault(x => x.Name == productDTO.productTypeDtoName);
                 product product1 = new product()
@@ -155,12 +153,6 @@ namespace Store.Services.services
                     }
                 }
                
-            }
-            catch (Exception err)
-            {
-                var log = _loggerFactory.CreateLogger("ProductProcessing");
-                log.LogError(err, "An error occurred while processing the product.",err.Message);
-            }
         }
 
     }
