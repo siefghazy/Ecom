@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECOMMERECE.Attributes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Store.Data.Models;
@@ -18,6 +19,7 @@ namespace ECOMMERECE.Controllers
             _productService = productService;
         }
         [HttpGet]
+        [Cached(50)]
         public async Task<ActionResult> getAllproduct()
         {
             var products = await _productService.getAllProducts();

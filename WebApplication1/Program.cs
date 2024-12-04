@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using Store.Data.Context;
 using Store.Data.Models;
 using Store.Repo;
@@ -37,6 +38,12 @@ namespace WebApplication1
             builder.Services.AddScoped<ITypeService, TypeServices>();
             builder.Services.AddScoped<IImages, ImageRepo>();
             builder.Services.AddScoped<IimagesOnProduct, imageOnproductRepo>();
+            builder.Services.AddScoped<ICacheService, CacheServices>();
+            builder.Services.AddSingleton<IConnectionMultiplexer>((ServiceProvider) =>
+            {
+                var connection = builder.Configuration.GetConnectionString("redis");
+                return ConnectionMultiplexer.Connect(connection);
+            });
             builder.Services.AddDbContext<StoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
             builder.Services.Configure<ApiBehaviorOptions>(
