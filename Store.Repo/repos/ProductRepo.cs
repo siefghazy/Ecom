@@ -25,10 +25,10 @@ namespace Store.Repo.repos
              _Context.SaveChanges();
         }
 
-        public IReadOnlyList<product> getAllProducts()
+        public async Task<IReadOnlyList<product>> getAllProducts()
         {
             
-            return _Context.Products.Include(x=>x.prodBrand).Include(x => x.productImages).ThenInclude(productImages=>productImages.image).Include(x => x.prodType).ToList();
+            return await _Context.Products.Include(x=>x.prodBrand).Include(x => x.productImages).ThenInclude(productImages=>productImages.image).Include(x => x.prodType).ToListAsync();
 
         }
 

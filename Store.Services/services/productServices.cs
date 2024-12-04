@@ -35,25 +35,33 @@ namespace Store.Services.services
         }
 
 
-        public IReadOnlyList<productDTO> getAllProducts()
+        public async Task<IReadOnlyList<productDTO>> getAllProducts()
         {
-            var products = _product.getAllProducts();
-            var mappedProduct = products.Select(p=>new productDTO()
+            try
             {
-                productDtoID= p.ID,
-                name = p.Name,
-                description=p.description,
-                price=p.price,
-                productBrandDtoID=p.prodBrand?.ID,
-                productBrandDtoName=p.prodBrand?.Name,
-                productBrandDtoImageUrl=p.prodBrand?.image?.path,
-               productTypeDtoId=p.prodType?.ID,
-               productTypeDtoName=p.prodType?.Name,
-                productDtoImageUrl = p.productImages?.Select(i => (dynamic)new {imageID=i.image.ID,path=i.image.path}).ToList()
-            });
-            return mappedProduct.ToList();
+                var products = await _product.getAllProducts();
+                var mappedProduct = products.Select(p => new productDTO()
+                {
+                    productDtoID = p.ID,
+                    name = p.Name,
+                    description = p.description,
+                    price = p.price,
+                    productBrandDtoID = p.prodBrand?.ID,
+                    productBrandDtoName = p.prodBrand?.Name,
+                    productBrandDtoImageUrl = p.prodBrand?.image?.path,
+                    productTypeDtoId = p.prodType?.ID,
+                    productTypeDtoName = p.prodType?.Name,
+                    productDtoImageUrl = p.productImages?.Select(i => (dynamic)new { imageID = i.image.ID, path = i.image.path }).ToList()
+                });
+                return mappedProduct.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
-        
+
 
         public  productDTO getProductById(int id)
         {

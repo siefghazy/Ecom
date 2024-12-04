@@ -1,6 +1,7 @@
 
 using ECOMMERECE.Controllers;
 using ECOMMERECE.Errors;
+using ECOMMERECE.middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -51,7 +52,7 @@ namespace WebApplication1
                     };
                     return  new BadRequestObjectResult(response);
                 }
-                );
+                ); //bad request exception 
 
 
 
@@ -61,6 +62,7 @@ namespace WebApplication1
 
 
             var app = builder.Build();
+            app.UseMiddleware<ExceptionMiddleWare>(); //null-reference Exception
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -68,11 +70,11 @@ namespace WebApplication1
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+      
+            app.UseStatusCodePagesWithReExecute("/error");// not found Route Exception
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-            //await applySeeding.applySeedingAsync(app);
             app.MapControllers();
             app.Run();
         }

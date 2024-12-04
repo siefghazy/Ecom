@@ -15,8 +15,9 @@
             {
                 400 => "bad request",
                 500 => "internal server error",
-                401 => "unAutorized",
-                200=>"successfull"
+                401 => "unAuthorized",
+                200=>"successfull",
+                404=>"Not Found"
 
             };
             return message;

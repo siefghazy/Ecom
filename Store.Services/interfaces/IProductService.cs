@@ -11,7 +11,7 @@ namespace Store.Services.interfaces
 {
    public interface IProductService
     {
-        public IReadOnlyList<productDTO>getAllProducts();
+        public  Task<IReadOnlyList<productDTO>> getAllProducts();
         public void addProduct(productDTO product);
         public productDTO getProductById(int id);
         public void updateProduct(product productDto);

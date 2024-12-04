@@ -18,9 +18,10 @@ namespace ECOMMERECE.Controllers
             _productService = productService;
         }
         [HttpGet]
-        public ActionResult getAllproduct()
+        public async Task<ActionResult> getAllproduct()
         {
-            return Ok(_productService.getAllProducts());
+            var products = await _productService.getAllProducts();
+            return Ok(products);
         }
         [HttpGet("{id}")]
         public ActionResult getProductId(int id)

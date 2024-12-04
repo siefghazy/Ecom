@@ -9,7 +9,7 @@ namespace Store.Repo.interfaces
 {
     public interface IProduct
     {
-        public IReadOnlyList<product>getAllProducts();
+        public Task<IReadOnlyList<product>> getAllProducts();
         public product getPrdouctById(int id);
         public void addProduct(product product);
         public void updateProduct(product product);
