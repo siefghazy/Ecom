@@ -48,7 +48,7 @@ namespace Store.Services.services
                     price = p.price,
                     productBrandDtoID = p.prodBrand?.ID,
                     productBrandDtoName = p.prodBrand?.Name,
-                    productBrandDtoImageUrl = p.prodBrand?.image.path,
+                    productBrandDtoImageUrl = p.prodBrand?.image?.path,
                     productTypeDtoId = p.prodType?.ID,
                     productTypeDtoName = p.prodType?.Name,
                     productDtoImageUrl = p.productImages?.Select(i => (dynamic)new { imageID = i.image.ID, path = i.image.path }).ToList()
