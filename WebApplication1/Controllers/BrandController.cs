@@ -27,6 +27,7 @@ namespace ECOMMERECE.Controllers
             return Ok(  _brandService.getAllBrands());
         }
         [HttpGet("{id}")]
+        [Cached(50)]
         public ActionResult<BrandDto> getBrandById(int id)
         {
             return Ok(_brandService.getProductById(id));

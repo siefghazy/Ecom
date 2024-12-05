@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECOMMERECE.Attributes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Bson;
 using Store.Data.Models;
@@ -23,12 +24,14 @@ namespace ECOMMERECE.Controllers
             _typeService.addType(typDto);
         }
         [HttpGet]
+        [Cached(50)]
         public ActionResult<IReadOnlyList<prodType>> getAllTypes()
         {
             return Ok(_typeService.getAllType());
         }
 
         [HttpGet("{id}")]
+        [Cached(50)]
         public ActionResult<prodType> getTypeById(int? id)
         {
             return Ok(_typeService.getTypeById(id));

@@ -26,6 +26,7 @@ namespace ECOMMERECE.Controllers
             return Ok(products);
         }
         [HttpGet("{id}")]
+        [Cached(50)]
         public ActionResult getProductId(int id)
         {
             return Ok(_productService.getProductById(id));
