@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECOMMERECE.Attributes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Store.Data.Models;
@@ -19,6 +20,7 @@ namespace ECOMMERECE.Controllers
         }
 
         [HttpGet]
+        [Cached(50)]
         public ActionResult<IReadOnlyList<BrandDto>>getAllBrands()
         {
            
