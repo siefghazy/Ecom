@@ -1,7 +1,7 @@
-
 using ECOMMERECE.Controllers;
 using ECOMMERECE.Errors;
 using ECOMMERECE.middlewares;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -39,6 +39,8 @@ namespace WebApplication1
             builder.Services.AddScoped<IImages, ImageRepo>();
             builder.Services.AddScoped<IimagesOnProduct, imageOnproductRepo>();
             builder.Services.AddScoped<ICacheService, CacheServices>();
+            builder.Services.AddScoped<IUserService, userServices>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<StoreDbContext>();
             builder.Services.AddSingleton<IConnectionMultiplexer>((ServiceProvider) =>
             {
                 var connection = builder.Configuration.GetConnectionString("redis");

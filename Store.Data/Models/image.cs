@@ -14,6 +14,7 @@ namespace Store.Data.Models
         [JsonIgnore]
         public prodBrand prodBrand { get; set; }
         [JsonIgnore]
-        public ICollection<imagesOnProduct>products { get; set; }
+        public ICollection<imagesOnProduct> products { get; set; }
+        public ApplicationUser user { get; set; }
     }
 }

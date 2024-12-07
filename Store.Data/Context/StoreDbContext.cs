@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Store.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Store.Data.Context
 {
-    public class StoreDbContext : DbContext
+    public class StoreDbContext : IdentityDbContext
     {
         public StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options)
         {
@@ -22,6 +23,7 @@ namespace Store.Data.Context
             modelBuilder.Entity<prodBrand>().HasOne(x => x.image).WithOne(x => x.prodBrand).HasForeignKey<prodBrand>(x => x.imageId).OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<imagesOnProduct>().HasKey(x => new { x.productID, x.ImageID });
             modelBuilder.Entity<ProductOnCart>().HasKey(x => new { x.productID, x.cartID });
+            modelBuilder.Entity<ApplicationUser>().HasOne(x => x.image).WithOne(x => x.user).HasForeignKey<ApplicationUser>(x => x.imageID);
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
@@ -33,5 +35,6 @@ namespace Store.Data.Context
         public DbSet<imagesOnProduct> imagesOnProducts { get; set; }
         public DbSet<ProductOnCart> productsOnCarts { get; set; }
         public DbSet<Cart> carts { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
     }
 }
