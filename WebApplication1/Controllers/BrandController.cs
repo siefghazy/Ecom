@@ -1,4 +1,5 @@
 ﻿using ECOMMERECE.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -18,7 +19,6 @@ namespace ECOMMERECE.Controllers
         {
             _brandService = ibrand;
         }
-
         [HttpGet]
         [Cached(50)]
         public ActionResult<IReadOnlyList<BrandDto>>getAllBrands()
@@ -33,6 +33,7 @@ namespace ECOMMERECE.Controllers
             return Ok(_brandService.getProductById(id));
         }
         [HttpPost]
+       // [Authorize(Roles ="Provider")]
         public void addBrand([FromForm] BrandDto brand)
         {
             _brandService.addBrand(brand);

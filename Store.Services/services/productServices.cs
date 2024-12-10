@@ -10,6 +10,7 @@ using Store.Services.middlewares;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,9 +23,10 @@ namespace Store.Services.services
         private readonly Ibrand _brand;
         private readonly IType _type;
         private readonly IimagesOnProduct _imageOnProduct;
+        private readonly IVariance _variance;
         private readonly ILoggerFactory _loggerFactory;
 
-        public productServices(IProduct product,IImages images,Ibrand brand,IType type,IimagesOnProduct iimagesOnProduct,ILoggerFactory loggerFactory)
+        public productServices(IProduct product,IImages images,Ibrand brand,IType type,IimagesOnProduct iimagesOnProduct,ILoggerFactory loggerFactory,IVariance variance)
         {
             _product = product;
             _images = images;
@@ -32,6 +34,7 @@ namespace Store.Services.services
             _type = type;
             _imageOnProduct = iimagesOnProduct;
             _loggerFactory = loggerFactory;
+            _variance = variance;
         }
 
 
@@ -155,5 +158,60 @@ namespace Store.Services.services
                
         }
 
+        public async Task addVarianceAsync(varianceAddDTO variance)
+        {
+            ProductVariance productVariance = new ProductVariance()
+            {
+                productID = variance.productIdDTO,
+                colorCode = variance.colorCode,
+                quanitity = variance.quantity
+            };
+            await _variance.addProductVarianceAsync(productVariance);
+        }
+
+       public async  Task<VarianceGetDTO> VarianceGet(int id)
+        {
+            var products = await _variance.GetProductVarianceByIdAsync(id);
+            List<dynamic> variances = new List<dynamic>();
+            List<dynamic>productImage = new List<dynamic>();
+            for (int i = 0; i < products.Count; i++)
+            {
+                var varianceObject = new
+                {
+                    colorCode = products[i].colorCode,
+                    quantity = products[i].quanitity
+                };
+                variances.Add(varianceObject);
+            }
+            foreach (var I in products[0].product.productImages)
+            {
+                var imageObject = new
+                {
+                    imageID = I.image.ID,
+                    path = I.image.path
+                };
+                productImage.Add(imageObject);
+            }
+            VarianceGetDTO productGet = new VarianceGetDTO()
+            {
+                productId = products[0].product.ID,
+                productName = products[0].product.Name,
+                productDescribtion = products[0].product.description,
+                productImages = productImage,
+                productBrandId = products[0].product.prodBrand.ID,
+                productBrandName = products[0].product.prodBrand.Name,
+                productBrandImageId = products[0].product.prodBrand.image?.ID,
+                productBrandImage= products[0].product.prodBrand.image?.path,
+                productTypeId= products[0].product.prodType.ID,
+                productTypeName= products[0].product.prodType.Name,
+                variances = variances
+            };
+            return productGet;
+        }
+
+        void IProductService.updateVariance(int id, varianceAddDTO variance)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

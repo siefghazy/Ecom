@@ -17,6 +17,7 @@ namespace Store.Data.Models
         public ICollection<product> products { get; set; }
         [JsonIgnore]
         [NotMapped]
-        public IFormFile? FormImage{ get; set; }
+        public IFormFile? FormImage { get; set; }
+
     }
 }

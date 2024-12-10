@@ -13,6 +13,6 @@ namespace Store.Services.interfaces
         public Task<UserSignUpDto> getUserById(string id);
         public Task deleteUserAsync(string id);
         public Task<bool> signIn(UserSignInDto userDTO);
-        public Task register(UserSignUpDto userDTO);
+        public Task register(UserSignUpDto userDTO,string role);
     }
 }

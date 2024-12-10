@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Store.Data.Context;
 using Store.Data.Models;
 using Store.Repo.interfaces;
@@ -16,22 +17,32 @@ namespace Store.Repo.repos
         private readonly UserManager<ApplicationUser> _userManger;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly StoreDbContext _Context;
+        private readonly ILogger<UserRepo> _logger;
 
-        public UserRepo(UserManager<ApplicationUser>userManager,SignInManager<ApplicationUser>signInManager,StoreDbContext context)
+        public UserRepo(UserManager<ApplicationUser>userManager,SignInManager<ApplicationUser>signInManager,StoreDbContext context,ILogger<UserRepo>logger)
         {
             _signInManager = signInManager;
             _userManger = userManager;
             _Context = context;
+            _logger = logger;
         }
-        public async Task<string> register(ApplicationUser user)
+        public async Task<string> register(ApplicationUser user,string password,string Role)
         {
 
-            var res = await _userManger.CreateAsync(user, user.password);
+            var res = await _userManger.CreateAsync(user, password);
             if (res.Succeeded)
             {
+                await _userManger.AddToRoleAsync(user, Role);
                 var addedUser = await _userManger.FindByEmailAsync(user.Email);
                 var userID = addedUser.Id;
                 return userID;
+            }
+            else
+            {
+                foreach (var err in res.Errors)
+                {
+                    _logger.LogError(err.Description);
+                }
             }
             return null;
         }
@@ -58,18 +69,19 @@ namespace Store.Repo.repos
             await _userManger.UpdateAsync(user);
         }
 
-        public async Task<bool> signIn(ApplicationUser user)
+        public async Task<bool> signIn(ApplicationUser user,string password)
         {
             var userGet = await _userManger.FindByEmailAsync(user.Email);
-            var checkPassword = await _userManger.CheckPasswordAsync(userGet, user.password);
+            var checkPassword = await _userManger.CheckPasswordAsync(userGet, password);
             if (userGet is not null && checkPassword != false)
             {
-                var res = await _signInManager.PasswordSignInAsync(userGet, user.password, false, false);
+                var res = await _signInManager.PasswordSignInAsync(userGet, password, false, false);
+
                 if (res.Succeeded)
                 {
                     return true;
                 }
-                return false;
+                else return false;
             }
             return false;
         }

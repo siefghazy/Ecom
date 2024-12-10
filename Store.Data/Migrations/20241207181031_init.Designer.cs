@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Data.Context;
 
@@ -11,9 +12,11 @@ using Store.Data.Context;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241207181031_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,37 +266,6 @@ namespace Store.Data.Migrations
                     b.ToTable("productsOnCarts");
                 });
 
-            modelBuilder.Entity("Store.Data.Models.ProductVariance", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("colorCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("productID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("quanitity")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("productID");
-
-                    b.ToTable("variances");
-                });
-
             modelBuilder.Entity("Store.Data.Models.image", b =>
                 {
                     b.Property<int>("ID")
@@ -406,17 +378,11 @@ namespace Store.Data.Migrations
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("discount")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("quantityStock")
-                        .HasColumnType("int");
 
                     b.Property<int?>("typID")
                         .HasColumnType("int");
@@ -530,17 +496,6 @@ namespace Store.Data.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("Store.Data.Models.ProductVariance", b =>
-                {
-                    b.HasOne("Store.Data.Models.product", "product")
-                        .WithMany("productVariances")
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
-                });
-
             modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
                 {
                     b.HasOne("Store.Data.Models.image", "image")
@@ -625,8 +580,6 @@ namespace Store.Data.Migrations
                     b.Navigation("productImages");
 
                     b.Navigation("productOnCarts");
-
-                    b.Navigation("productVariances");
                 });
 #pragma warning restore 612, 618
         }

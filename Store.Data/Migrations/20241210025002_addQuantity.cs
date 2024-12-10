@@ -5,24 +5,25 @@
 namespace Store.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addUser : Migration
+    public partial class addQuantity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "address",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "quantityStock",
+                table: "Products",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "address",
-                table: "AspNetUsers");
+                name: "quantityStock",
+                table: "Products");
         }
     }
 }

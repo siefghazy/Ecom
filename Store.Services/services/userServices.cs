@@ -60,31 +60,46 @@ namespace Store.Services.services
             return mappedSignUp;
         }
 
-        public async Task register(UserSignUpDto userDTO)
+        public async Task register(UserSignUpDto userDTO,string role)
         {
-            var path = documentSetting.uploadFile(userDTO.formImages, "images");
-            var imageToBeAdded = ImageUploadMiddleware.imageUpload(path,_images);
-            ApplicationUser user = new ApplicationUser()
+            if (userDTO.formImages is not null)
             {
-                firstName = userDTO.firstName,
-                lastName = userDTO.lastName,
-                PhoneNumber = userDTO.mobilePhone,
-                address = userDTO.address,
-                password = userDTO.password,
-                Email = userDTO.Email,
-                UserName = userDTO.Email.Split('@')[0],
-                imageID = imageToBeAdded.ID
-            };
-            await _user.register(user);
+                var path = documentSetting.uploadFile(userDTO.formImages, "images");
+                var imageToBeAdded = ImageUploadMiddleware.imageUpload(path, _images);
+                ApplicationUser user = new ApplicationUser()
+                {
+                    firstName = userDTO.firstName,
+                    lastName = userDTO.lastName,
+                    PhoneNumber = userDTO.mobilePhone,
+                    address = userDTO.address,
+                    Email = userDTO.Email,
+                    UserName = userDTO.Email.Split('@')[0],
+                    imageID = imageToBeAdded.ID
+                };
+                await _user.register(user, userDTO.password,role);
+            }
+            else
+            {
+                ApplicationUser user = new ApplicationUser()
+                {
+                    firstName = userDTO.firstName,
+                    lastName = userDTO.lastName,
+                    PhoneNumber = userDTO.mobilePhone,
+                    address = userDTO.address,
+                    Email = userDTO.Email,
+                    UserName = userDTO.Email.Split('@')[0]
+                };
+                await _user.register(user, userDTO.password,role);
+            }
+
         }
         public async Task<bool> signIn(UserSignInDto userDTO)
         {
             ApplicationUser user = new ApplicationUser()
             {
                 Email = userDTO.Email,
-                password = userDTO.password,
             };
-            if (await _user.signIn(user))
+            if (await _user.signIn(user,userDTO.password))
             {
                 return true;
             }

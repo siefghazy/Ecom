@@ -41,6 +41,15 @@ namespace ECOMMERECE.Controllers
         {
             _productService.deleteProduct(id);
         }
-        
+        [HttpPost]
+        public async Task addVariance([FromForm]varianceAddDTO varianceAddDTO)
+        {
+            await _productService.addVarianceAsync(varianceAddDTO);
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<VarianceGetDTO>> getProductVariance(int id)
+        {
+            return Ok(await _productService.VarianceGet(id));
+        }
     }
 }

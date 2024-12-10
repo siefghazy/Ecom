@@ -27,5 +27,8 @@ namespace Store.Data.Models
         public ICollection<IFormFile> formImages { get; set; }
         [JsonIgnore]
         public ICollection<ProductOnCart> productOnCarts { get; set; }
+        public ICollection<ProductVariance> productVariances { get; set; }
+        public int quantityStock { get; set; }
+        public int discount { get; set; }
     }
 }

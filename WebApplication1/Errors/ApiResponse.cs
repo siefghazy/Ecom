@@ -3,11 +3,11 @@
     public class ApiResponse
     {
         public int statusCode { get; set; }
-        public string ErrorMsg { get; set; }
+        public string message { get; set; }
         public ApiResponse(int status, string? msg = null)
         {
             statusCode = status;
-            ErrorMsg = msg ?? defaultErrorMsg(status);
+            message = msg ?? defaultErrorMsg(status);
         }
         private string defaultErrorMsg(int status)
         {

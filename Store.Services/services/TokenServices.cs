@@ -26,11 +26,11 @@ namespace Store.Services.services
         public async Task<string> createTokenAsync(ApplicationUser user,UserManager<ApplicationUser>userManager)
         {
             var authClaims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Email,user.Email),
+            { 
                 new Claim(ClaimTypes.Sid,$"{user.Id}")
             };
             var userRole = await userManager.GetRolesAsync(user);
+            var key = _configuration["jwt:key"];
             var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:key"]));
             foreach (var role in userRole)
             {

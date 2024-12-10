@@ -24,6 +24,7 @@ namespace Store.Data.Context
             modelBuilder.Entity<imagesOnProduct>().HasKey(x => new { x.productID, x.ImageID });
             modelBuilder.Entity<ProductOnCart>().HasKey(x => new { x.productID, x.cartID });
             modelBuilder.Entity<ApplicationUser>().HasOne(x => x.image).WithOne(x => x.user).HasForeignKey<ApplicationUser>(x => x.imageID);
+            modelBuilder.Entity<product>().HasMany(x => x.productVariances).WithOne(x => x.product).HasForeignKey(x=>x.productID);
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
@@ -36,5 +37,6 @@ namespace Store.Data.Context
         public DbSet<ProductOnCart> productsOnCarts { get; set; }
         public DbSet<Cart> carts { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<ProductVariance>variances { get; set; }
     }
 }

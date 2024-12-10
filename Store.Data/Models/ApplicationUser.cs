@@ -16,8 +16,6 @@ namespace Store.Data.Models
         public bool? isActive { get; set; }
         public image image { get; set; }
         public int? imageID { get; set; }
-        [NotMapped]
-        public string password { get; set; }
         public string address { get; set; }
     }
 }

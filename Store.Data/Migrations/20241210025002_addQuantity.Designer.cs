@@ -12,8 +12,8 @@ using Store.Data.Context;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241207002845_init")]
-    partial class init
+    [Migration("20241210025002_addQuantity")]
+    partial class addQuantity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,6 +266,37 @@ namespace Store.Data.Migrations
                     b.ToTable("productsOnCarts");
                 });
 
+            modelBuilder.Entity("Store.Data.Models.ProductVariance", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("colorCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("productID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("quanitity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("productID");
+
+                    b.ToTable("variances");
+                });
+
             modelBuilder.Entity("Store.Data.Models.image", b =>
                 {
                     b.Property<int>("ID")
@@ -384,6 +415,9 @@ namespace Store.Data.Migrations
                     b.Property<decimal?>("price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("quantityStock")
+                        .HasColumnType("int");
+
                     b.Property<int?>("typID")
                         .HasColumnType("int");
 
@@ -399,6 +433,10 @@ namespace Store.Data.Migrations
             modelBuilder.Entity("Store.Data.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("firstName")
                         .HasColumnType("nvarchar(max)");
@@ -492,6 +530,17 @@ namespace Store.Data.Migrations
                     b.Navigation("product");
                 });
 
+            modelBuilder.Entity("Store.Data.Models.ProductVariance", b =>
+                {
+                    b.HasOne("Store.Data.Models.product", "product")
+                        .WithMany("productVariances")
+                        .HasForeignKey("productID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product");
+                });
+
             modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
                 {
                     b.HasOne("Store.Data.Models.image", "image")
@@ -576,6 +625,8 @@ namespace Store.Data.Migrations
                     b.Navigation("productImages");
 
                     b.Navigation("productOnCarts");
+
+                    b.Navigation("productVariances");
                 });
 #pragma warning restore 612, 618
         }
