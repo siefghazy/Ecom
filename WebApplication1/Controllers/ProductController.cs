@@ -26,7 +26,7 @@ namespace ECOMMERECE.Controllers
             return Ok(products);
         }
         [HttpGet("{id}")]
-        [Cached(50)]
+        //[Cached(50)]
         public ActionResult getProductId(int id)
         {
             return Ok(_productService.getProductById(id));
@@ -50,6 +50,11 @@ namespace ECOMMERECE.Controllers
         public async Task<ActionResult<VarianceGetDTO>> getProductVariance(int id)
         {
             return Ok(await _productService.VarianceGet(id));
+        }
+        [HttpPut("{id}")]
+        public void updateProduct(int id, [FromForm]productDTO product,[FromQuery]int? imageID)
+        {
+            _productService.updateProduct( id, product,imageID);
         }
     }
 }

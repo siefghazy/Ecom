@@ -319,10 +319,10 @@ namespace Store.Data.Migrations
 
             modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
                 {
-                    b.Property<int?>("productID")
+                    b.Property<int>("productID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ImageID")
+                    b.Property<int>("ImageID")
                         .HasColumnType("int");
 
                     b.HasKey("productID", "ImageID");

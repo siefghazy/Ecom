@@ -34,8 +34,8 @@ namespace Store.Repo.repos
 
         public void removeImage(int? id)
         {
-            var image= _context.images.Find(id);
-            _context.Remove(image);
+            var image = _context.images.Find(id);
+            _context.images.Remove(image);
             _context.SaveChanges();
         }
 

@@ -245,6 +245,8 @@ namespace Store.Data.Migrations
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     typID = table.Column<int>(type: "int", nullable: true),
                     brandID = table.Column<int>(type: "int", nullable: true),
+                    quantityStock = table.Column<int>(type: "int", nullable: false),
+                    discount = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true)
                 },
@@ -309,6 +311,29 @@ namespace Store.Data.Migrations
                         name: "FK_productsOnCarts_carts_cartID",
                         column: x => x.cartID,
                         principalTable: "carts",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "variances",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    productID = table.Column<int>(type: "int", nullable: false),
+                    colorCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    quanitity = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_variances", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_variances_Products_productID",
+                        column: x => x.productID,
+                        principalTable: "Products",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -385,6 +410,11 @@ namespace Store.Data.Migrations
                 name: "IX_productsOnCarts_cartID",
                 table: "productsOnCarts",
                 column: "cartID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_variances_productID",
+                table: "variances",
+                column: "productID");
         }
 
         /// <inheritdoc />
@@ -412,16 +442,19 @@ namespace Store.Data.Migrations
                 name: "productsOnCarts");
 
             migrationBuilder.DropTable(
+                name: "variances");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "carts");
 
             migrationBuilder.DropTable(
-                name: "carts");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Brands");

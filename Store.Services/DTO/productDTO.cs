@@ -19,9 +19,13 @@ namespace Store.Services.DTO
         public string ?productBrandDtoName { get; set; }
         public string? productBrandDtoImageUrl { get; set; }
         public int ?productTypeDtoId { get; set; }
-        public string  productTypeDtoName { get; set; }
+        public string ? productTypeDtoName { get; set; }
         public List<dynamic> ?productDtoImageUrl { get; set; }
         [JsonIgnore]
-        public ICollection<IFormFile>? formImages { get; set; }
+        public List<IFormFile>? formImages { get; set; }
+        public int? discount { get; set; } = 0;
+        public int? quantity { get; set; }
+        public bool? isDeleted { get; set; }
+
     }
 }

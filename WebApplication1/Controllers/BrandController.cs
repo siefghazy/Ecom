@@ -20,14 +20,14 @@ namespace ECOMMERECE.Controllers
             _brandService = ibrand;
         }
         [HttpGet]
-        [Cached(50)]
+       // [Cached(50)]
         public ActionResult<IReadOnlyList<BrandDto>>getAllBrands()
         {
            
             return Ok(  _brandService.getAllBrands());
         }
         [HttpGet("{id}")]
-        [Cached(50)]
+        //[Cached(50)]
         public ActionResult<BrandDto> getBrandById(int id)
         {
             return Ok(_brandService.getProductById(id));

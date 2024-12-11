@@ -10,9 +10,9 @@ namespace Store.Data.Models
     public class imagesOnProduct
     {
         [JsonIgnore]
-        public int? productID { get; set; }
+        public int productID { get; set; }
         public image image { get; set; }
         [JsonIgnore]
-        public int ?ImageID { get; set; }
+        public int ImageID { get; set; }
     }
 }

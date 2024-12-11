@@ -96,7 +96,7 @@ namespace WebApplication1
                 ); //bad request exception 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<StoreDbContext>();
             var app = builder.Build();
-            using (var scope = app.Services.CreateScope())
+           using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 await roleSeeding.seedRoles(roleManager);

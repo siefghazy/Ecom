@@ -53,6 +53,8 @@ namespace Store.Repo.repos
                 typID = product.typID,
                 CreatedAt = product.CreatedAt,
                 Name = product.Name,
+                quantityStock= product.quantityStock,
+                discount= product.discount,
             };
             _Context.Products.Add(productToBeUploaded);
             _Context.SaveChanges();

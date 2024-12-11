@@ -14,11 +14,11 @@ namespace Store.Services.interfaces
         public  Task<IReadOnlyList<productDTO>> getAllProducts();
         public void addProduct(productDTO product);
         public productDTO getProductById(int id);
-        public void updateProduct(product productDto);
+        public void updateProduct(int id,productDTO productDto,int ? productImage);
         public void deleteProduct(int id);
         public Task addVarianceAsync(varianceAddDTO variance);
         public Task<VarianceGetDTO> VarianceGet(int id);
-        public void updateVariance(int id,varianceAddDTO variance);
+       // public void updateVariance(int id,varianceAddDTO variance);
 
 
     }

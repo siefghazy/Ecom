@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Store.Data.Models;
 using Store.Repo.interfaces;
+using Store.Repo.repos;
 using Store.Services.DTO;
 using Store.Services.interfaces;
 using Store.Services.middlewares;
@@ -54,6 +55,8 @@ namespace Store.Services.services
                     productBrandDtoImageUrl = p.prodBrand?.image?.path,
                     productTypeDtoId = p.prodType?.ID,
                     productTypeDtoName = p.prodType?.Name,
+                    quantity=p.quantityStock,
+                    discount=p.discount,
                     productDtoImageUrl = p.productImages?.Select(i => (dynamic)new { imageID = i.image.ID, path = i.image.path }).ToList()
                 });
                 return mappedProduct.ToList();
@@ -85,7 +88,9 @@ namespace Store.Services.services
                 productBrandDtoImageUrl=product.prodBrand?.image?.path,
                 productTypeDtoId=product.prodType?.ID,
                 productTypeDtoName=product.prodType?.Name,
-                productDtoImageUrl=producImages
+                productDtoImageUrl=producImages,
+                quantity=product.quantityStock,
+                discount=product.discount
             };
             return productToBeMapped;
         }
@@ -108,19 +113,38 @@ namespace Store.Services.services
 
         }
 
-        public  void updateProduct(product product)
+        public  void updateProduct(int id,productDTO product,int ? productImage)
         {
-            product updateProduct = new product()
+            if (productImage == null)
             {
-                ID = product.ID,
-                description = product.description,
-                Name = product.Name,
-                brandID = product.brandID,
-                typID = product.typID,
-                price = product.price,
-                CreatedAt = (DateTime)product.CreatedAt
-            };
-            _product.updateProduct(updateProduct);
+                var productToBeUploaded = _product.getPrdouctById(id);
+                productToBeUploaded.Name = product.name ?? productToBeUploaded.Name;
+                productToBeUploaded.description = product.description ?? productToBeUploaded.description;
+                productToBeUploaded.price = product.price ?? productToBeUploaded.price;
+                productToBeUploaded.typID = product.productTypeDtoId ?? productToBeUploaded.typID;
+                productToBeUploaded.brandID = product.productBrandDtoID ?? productToBeUploaded.brandID;
+                productToBeUploaded.discount = product.discount ?? productToBeUploaded.discount;
+                productToBeUploaded.quantityStock = product.quantity ?? productToBeUploaded.quantityStock;
+                productToBeUploaded.isDeleted = product.isDeleted ?? productToBeUploaded.isDeleted;
+                _product.updateProduct(productToBeUploaded);
+            }
+            else
+            {
+                var imagToBeUpdated = _images.getImageById(productImage);
+                var path = documentSetting.uploadFile(product.formImages[0], "images");
+                imagToBeUpdated.path = path;
+                _images.updateImage(imagToBeUpdated);
+                var productToBeUploaded = _product.getPrdouctById(id);
+                productToBeUploaded.Name = product.name ?? productToBeUploaded.Name;
+                productToBeUploaded.description = product.description ?? productToBeUploaded.description;
+                productToBeUploaded.price = product.price ?? productToBeUploaded.price;
+                productToBeUploaded.typID = product.productTypeDtoId ?? productToBeUploaded.typID;
+                productToBeUploaded.brandID = product.productBrandDtoID ?? productToBeUploaded.brandID;
+                productToBeUploaded.discount = product.discount ?? productToBeUploaded.discount;
+                productToBeUploaded.quantityStock = product.quantity ?? productToBeUploaded.quantityStock;
+                productToBeUploaded.isDeleted = product.isDeleted ?? productToBeUploaded.isDeleted;
+                _product.updateProduct(productToBeUploaded);
+            }
         }
 
         public  void addProduct(productDTO productDTO)
@@ -135,6 +159,9 @@ namespace Store.Services.services
                     typID = typGet.ID,
                     CreatedAt = DateTime.Now,
                     Name = productDTO.name,
+                    quantityStock=(int)productDTO.quantity,
+                    discount=(int)productDTO.discount,
+                    isDeleted=productDTO.isDeleted,
                 };
                 if (productDTO.formImages is null)
                 {
@@ -171,6 +198,7 @@ namespace Store.Services.services
 
        public async  Task<VarianceGetDTO> VarianceGet(int id)
         {
+            
             var products = await _variance.GetProductVarianceByIdAsync(id);
             List<dynamic> variances = new List<dynamic>();
             List<dynamic>productImage = new List<dynamic>();
@@ -207,11 +235,6 @@ namespace Store.Services.services
                 variances = variances
             };
             return productGet;
-        }
-
-        void IProductService.updateVariance(int id, varianceAddDTO variance)
-        {
-            throw new NotImplementedException();
         }
     }
 }

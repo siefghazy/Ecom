@@ -12,8 +12,8 @@ using Store.Data.Context;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241209213521_addProductVariance")]
-    partial class addProductVariance
+    [Migration("20241211000004_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -322,10 +322,10 @@ namespace Store.Data.Migrations
 
             modelBuilder.Entity("Store.Data.Models.imagesOnProduct", b =>
                 {
-                    b.Property<int?>("productID")
+                    b.Property<int>("productID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ImageID")
+                    b.Property<int>("ImageID")
                         .HasColumnType("int");
 
                     b.HasKey("productID", "ImageID");
@@ -409,11 +409,17 @@ namespace Store.Data.Migrations
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("discount")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("quantityStock")
+                        .HasColumnType("int");
 
                     b.Property<int?>("typID")
                         .HasColumnType("int");
