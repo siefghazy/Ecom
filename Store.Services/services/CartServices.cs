@@ -56,12 +56,23 @@ namespace Store.Services.services
 
         public void removeCartGetAsync(string userID, int id)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void updateProudctCart(string userID, int ProductID)
+        public async Task updateProudctCart(string userID, cartAddDto cartDTO)
         {
-            throw new NotImplementedException();
+            var cart= await _cart.GetUserCartByIdAsync(userID);
+            var productFromCart = await _cartOnProduct.getProductFromCartAsync(cartDTO.productsID,cart.ID);
+            productFromCart.quantity = cartDTO.quantityInCart;
+            if (cartDTO.quantityInCart == 0)
+            {
+                _cartOnProduct.removeProductFromCart(productFromCart);
+            }
+            else
+            {
+                _cartOnProduct.updateCartOnProduct(productFromCart);
+            }
+            
         }
     }
 }

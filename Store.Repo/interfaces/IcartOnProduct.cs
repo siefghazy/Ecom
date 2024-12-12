@@ -12,5 +12,7 @@ namespace Store.Repo.interfaces
         public Task addCartOnProductAsync(ProductOnCart productOnCart);
         public void updateCartOnProduct(ProductOnCart productOnCart);
         public Task<IReadOnlyList<ProductOnCart>> GetProductOnCartsById(int id);
+        public Task<ProductOnCart> getProductFromCartAsync(int productID, int cartID);
+        public void removeProductFromCart(ProductOnCart productOnCart);
     }
 }

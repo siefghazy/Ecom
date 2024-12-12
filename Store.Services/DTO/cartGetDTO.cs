@@ -8,6 +8,7 @@ namespace Store.Services.DTO
 {
     public class cartGetDTO
     {
+        
         public int cartID { get; set; }
         public List<dynamic> products { get; set; }
     }

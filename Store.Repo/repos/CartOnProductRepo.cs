@@ -28,11 +28,24 @@ namespace Store.Repo.repos
         public void updateCartOnProduct(ProductOnCart productOnCart)
         {
             _context.productsOnCarts.Update(productOnCart);
+            _context.SaveChanges();
         }
 
         public async  Task<IReadOnlyList<ProductOnCart>> GetProductOnCartsById(int id)
         {
             return await _context.productsOnCarts.Where(x => x.cartID == id).Include(x=>x.product).ToListAsync();
+        }
+
+        public async Task<ProductOnCart>getProductFromCartAsync(int productID, int cartID)
+        {
+            return await _context.productsOnCarts
+       .FirstOrDefaultAsync(x => x.productID == productID && x.cartID == cartID);
+        }
+
+        public void removeProductFromCart(ProductOnCart productOnCart)
+        {
+            _context.productsOnCarts.Remove(productOnCart);
+            _context.SaveChanges();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ECOMMERECE.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task addcart([FromBody]cartAddDto cart)
+        public async Task addcart([FromBody] cartAddDto cart)
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString();
             if (token.StartsWith("Bearer"))
@@ -34,5 +34,19 @@ namespace ECOMMERECE.Controllers
             var userID = jwtToken.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata").Value;
             await _cartServices.addCartAsync(userID, cart);
         }
-     }
+        [HttpPut]
+        [Authorize]
+        public async Task updateCart([FromBody] cartAddDto cart)
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString();
+            if (token.StartsWith("Bearer"))
+            {
+                token = token.Substring(7);
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+            var userID = jwtToken.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata").Value;
+            await _cartServices.updateProudctCart(userID, cart);
+        }
     }
+}

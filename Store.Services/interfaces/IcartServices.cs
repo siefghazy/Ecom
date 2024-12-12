@@ -12,7 +12,6 @@ namespace Store.Services.interfaces
     {
         public Task addCartAsync(string userID,cartAddDto cartDTO);
         public void removeCartGetAsync(string userID,int id);
-        public void updateProudctCart(string userID, int ProductID);
-
+        public Task updateProudctCart(string userID, cartAddDto cartDTO);
     }
 }
