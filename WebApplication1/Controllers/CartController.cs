@@ -22,7 +22,7 @@ namespace ECOMMERECE.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task addcart([FromForm]cartAddDto cart)
+        public async Task addcart([FromBody]cartAddDto cart)
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString();
             if (token.StartsWith("Bearer"))
