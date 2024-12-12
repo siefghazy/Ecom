@@ -40,12 +40,15 @@ namespace WebApplication1
             builder.Services.AddScoped<Ibrand, BrandsRepo>();
             builder.Services.AddScoped<IType, TypeRepo>();
             builder.Services.AddScoped<Iuser, UserRepo>();
-            builder.Services.AddScoped<IbrandService, BrandServices>();
-            builder.Services.AddScoped<IProductService, productServices>();
-            builder.Services.AddScoped<ITypeService, TypeServices>();
+            builder.Services.AddScoped<Icart, cartRepo>();
+            builder.Services.AddScoped<IcartOnProduct, CartOnProductRepo>();
             builder.Services.AddScoped<IImages, ImageRepo>();
             builder.Services.AddScoped<IVariance, varianceRepo>();
             builder.Services.AddScoped<IimagesOnProduct, imageOnproductRepo>();
+            builder.Services.AddScoped<IcartServices, CartServices>();
+            builder.Services.AddScoped<IbrandService, BrandServices>();
+            builder.Services.AddScoped<IProductService, productServices>();
+            builder.Services.AddScoped<ITypeService, TypeServices>();
             builder.Services.AddScoped<ICacheService, CacheServices>();
             builder.Services.AddScoped<IUserService, userServices>();
             builder.Services.AddScoped<ITokenServices, TokenServices>();

@@ -8,6 +8,8 @@ namespace Store.Data.Models
 {
     public class Cart:BaseEntity<int>
     {
+        public  ApplicationUser user{ get; set; }
+        public string userID { get; set; }
         public ICollection<ProductOnCart> cartOnProduct { get; set; }
     }
 }

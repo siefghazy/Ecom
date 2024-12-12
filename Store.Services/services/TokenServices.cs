@@ -27,7 +27,7 @@ namespace Store.Services.services
         {
             var authClaims = new List<Claim>()
             { 
-                new Claim(ClaimTypes.Sid,$"{user.Id}")
+                new Claim(ClaimTypes.UserData,$"{user.Id}")
             };
             var userRole = await userManager.GetRolesAsync(user);
             var key = _configuration["jwt:key"];

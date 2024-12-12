@@ -17,5 +17,6 @@ namespace Store.Data.Models
         public image image { get; set; }
         public int? imageID { get; set; }
         public string address { get; set; }
+        public Cart cart { get; set; }
     }
 }

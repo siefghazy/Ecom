@@ -11,6 +11,7 @@ namespace Store.Data.Models
         public product product { get; set; }
         public int productID { get; set; }
         public Cart  cart { get; set; }
-        public int cartID  { get; set; }
+        public int cartID { get; set; }
+        public int quantity { get; set; }
     }
 }
